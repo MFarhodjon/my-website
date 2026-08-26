@@ -3,16 +3,102 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="My new website">
-  <title>My Website</title>
+  <meta name="description" content="A completely unnecessary 30-second good-mood test">
+  <meta name="theme-color" content="#dff5ff">
+  <title>The Totally Scientific Good-Mood Test</title>
   <link rel="stylesheet" href="styles.css">
 </head>
-<body>
-  <main class="hero">
-    <p class="eyebrow">Welcome</p>
-    <h1>My new website is live.</h1>
-    <p class="intro">This page is hosted for free with GitHub Pages.</p>
-    <a class="button" href="https://github.com" target="_blank" rel="noreferrer">Visit GitHub</a>
+<body data-theme="sky">
+  <div class="background-shapes" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <main class="app" id="app" data-view="start">
+    <header class="progress-header" id="progressHeader" hidden>
+      <div class="progress-copy">
+        <span id="progressLabel">Question 1 of 5</span>
+        <span id="progressStatus">Good-mood check</span>
+      </div>
+      <div class="progress-track" role="progressbar" id="progressTrack" aria-valuemin="0" aria-valuemax="5" aria-valuenow="1">
+        <span class="progress-bar" id="progressBar"></span>
+      </div>
+    </header>
+
+    <div class="mascot-stage" id="mascotStage" aria-hidden="true">
+      <span class="scene-icon" id="sceneIcon">✨</span>
+      <div class="suitcase" id="suitcase">
+        <div class="suitcase-handle"></div>
+        <div class="suitcase-shell">
+          <span class="case-band band-left"></span>
+          <span class="case-band band-right"></span>
+          <span class="case-sticker sticker-one" data-sticker="0"></span>
+          <span class="case-sticker sticker-two" data-sticker="1"></span>
+          <span class="case-sticker sticker-three" data-sticker="2"></span>
+          <span class="case-sticker sticker-four" data-sticker="3"></span>
+          <span class="case-sticker sticker-five" data-sticker="4"></span>
+          <div class="suitcase-face" id="suitcaseFace">•ᴗ•</div>
+        </div>
+        <span class="case-foot foot-left"></span>
+        <span class="case-foot foot-right"></span>
+      </div>
+    </div>
+
+    <section class="screen" id="startScreen" aria-labelledby="startTitle">
+      <p class="eyebrow">Peer-reviewed by absolutely nobody</p>
+      <h1 id="startTitle" tabindex="-1">The Totally Scientific Good-Mood Test</h1>
+      <p class="lead"><strong>30 seconds. 5 tiny choices. Zero wrong answers.</strong></p>
+      <p class="supporting">Warning: may improve your mood for no serious reason.</p>
+      <button class="button primary" id="startButton" type="button">Let's see 😄</button>
+    </section>
+
+    <section class="screen" id="quizScreen" aria-labelledby="questionTitle" hidden>
+      <p class="eyebrow" id="questionEyebrow">Tiny choice 1</p>
+      <h2 id="questionTitle" tabindex="-1">Do you like traveling?</h2>
+      <p class="reaction" id="reaction" aria-live="polite" aria-atomic="true">Pick one. The suitcase is taking notes.</p>
+      <div class="answers" id="answers">
+        <button class="button answer yes-answer" id="yesButton" type="button">Yes <span aria-hidden="true">😊</span></button>
+        <button class="button answer no-answer" id="noButton" type="button">No <span aria-hidden="true">🙈</span></button>
+      </div>
+    </section>
+
+    <section class="screen answer-reaction-screen" id="answerReactionScreen" aria-labelledby="answerReactionTitle" hidden>
+      <p class="eyebrow">Instant reaction</p>
+      <div class="reaction-visual" id="reactionVisual" data-effect="fly" aria-hidden="true">
+        <span class="reaction-icon icon-main" id="reactionIconMain">✈️</span>
+        <span class="reaction-icon icon-side" id="reactionIconSide">💸</span>
+      </div>
+      <h2 id="answerReactionTitle" tabindex="-1">Passport energy detected.</h2>
+      <p class="reaction-caption">Next tiny choice arriving automatically...</p>
+      <div class="reaction-countdown" aria-hidden="true"><span id="reactionCountdown"></span></div>
+    </section>
+
+    <section class="screen final-intro-screen" id="lastQuestionScreen" aria-labelledby="lastQuestionTitle" hidden>
+      <p class="eyebrow">Plot twist...</p>
+      <h2 id="lastQuestionTitle" tabindex="-1">Wait... one last question.</h2>
+      <p class="lead">The suitcase says this one actually matters.</p>
+      <div class="mini-loader" aria-hidden="true"><span></span><span></span><span></span></div>
+    </section>
+
+    <section class="screen final-screen" id="finalScreen" aria-labelledby="finalTitle" hidden>
+      <p class="eyebrow">Okay... one real question</p>
+      <h2 id="finalTitle" tabindex="-1">Would you give me one small chance to make you smile?</h2>
+      <p class="reaction" id="finalReaction" aria-live="polite" aria-atomic="true">Choose carefully. The suitcase has opinions.</p>
+      <div class="answers final-answers">
+        <button class="button answer yes-answer" id="finalYesButton" type="button">Yes, one chance <span aria-hidden="true">🙂</span></button>
+        <button class="button answer no-answer" id="finalNoButton" type="button">No, but nice try <span aria-hidden="true">😄</span></button>
+      </div>
+    </section>
+
+    <section class="screen ending-screen" id="endingScreen" aria-labelledby="endingTitle" hidden>
+      <p class="eyebrow" id="endingEyebrow">Chance granted</p>
+      <h2 id="endingTitle" tabindex="-1">Deal! 🎉</h2>
+      <p class="profile-description" id="endingMessage"></p>
+      <p class="tiny-joke" id="endingJoke"></p>
+      <button class="button secondary" id="replayButton" type="button">Play it again ↻</button>
+    </section>
   </main>
+
+  <div class="confetti" id="confetti" aria-hidden="true"></div>
+  <script type="module" src="script.js"></script>
 </body>
 </html>

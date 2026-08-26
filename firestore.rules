@@ -1,0 +1,163 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isAnswer(value) {
+      return value == "yes" || value == "no";
+    }
+
+    function isNullableAnswer(value) {
+      return value == null || isAnswer(value);
+    }
+
+    function validAnswers(answers) {
+      return answers is map
+        && answers.keys().hasAll([
+          "travel", "nature", "cities", "food", "spontaneous"
+        ])
+        && answers.keys().hasOnly([
+          "travel", "nature", "cities", "food", "spontaneous"
+        ])
+        && isNullableAnswer(answers.travel)
+        && isNullableAnswer(answers.nature)
+        && isNullableAnswer(answers.cities)
+        && isNullableAnswer(answers.food)
+        && isNullableAnswer(answers.spontaneous);
+    }
+
+    function allAnswered(answers) {
+      return isAnswer(answers.travel)
+        && isAnswer(answers.nature)
+        && isAnswer(answers.cities)
+        && isAnswer(answers.food)
+        && isAnswer(answers.spontaneous);
+    }
+
+    function validShape(data) {
+      return data.keys().hasAll([
+          "ownerUid", "schemaVersion", "startedAt", "updatedAt",
+          "completedAt", "answers", "finalNoAttempts", "finalAttempts",
+          "finalDecision"
+        ])
+        && data.keys().hasOnly([
+          "ownerUid", "schemaVersion", "startedAt", "updatedAt",
+          "completedAt", "answers", "finalNoAttempts", "finalAttempts",
+          "finalDecision"
+        ])
+        && data.ownerUid is string
+        && data.schemaVersion == 1
+        && data.startedAt is timestamp
+        && data.updatedAt is timestamp
+        && (data.completedAt == null || data.completedAt is timestamp)
+        && validAnswers(data.answers)
+        && data.finalNoAttempts is int
+        && data.finalNoAttempts >= 0
+        && data.finalNoAttempts <= 4
+        && data.finalAttempts is int
+        && data.finalAttempts >= 0
+        && data.finalAttempts <= 4
+        && (
+          data.finalDecision == "pending"
+          || data.finalDecision == "yes"
+          || data.finalDecision == "no"
+        );
+    }
+
+    function validCreate(data) {
+      return validShape(data)
+        && data.ownerUid == request.auth.uid
+        && data.startedAt == request.time
+        && data.updatedAt == request.time
+        && data.completedAt == null
+        && data.answers.travel == null
+        && data.answers.nature == null
+        && data.answers.cities == null
+        && data.answers.food == null
+        && data.answers.spontaneous == null
+        && data.finalNoAttempts == 0
+        && data.finalAttempts == 0
+        && data.finalDecision == "pending";
+    }
+
+    function answerMovesForward(oldValue, newValue) {
+      return newValue == oldValue
+        || (oldValue == null && isAnswer(newValue));
+    }
+
+    function validSingleAnswerUpdate(oldAnswers, newAnswers) {
+      return newAnswers.diff(oldAnswers).affectedKeys().size() == 1
+        && answerMovesForward(oldAnswers.travel, newAnswers.travel)
+        && answerMovesForward(oldAnswers.nature, newAnswers.nature)
+        && answerMovesForward(oldAnswers.cities, newAnswers.cities)
+        && answerMovesForward(oldAnswers.food, newAnswers.food)
+        && answerMovesForward(oldAnswers.spontaneous, newAnswers.spontaneous);
+    }
+
+    function isAnswerWrite(oldData, newData) {
+      return validSingleAnswerUpdate(oldData.answers, newData.answers)
+        && newData.finalNoAttempts == oldData.finalNoAttempts
+        && newData.finalAttempts == oldData.finalAttempts
+        && newData.finalDecision == oldData.finalDecision
+        && newData.completedAt == oldData.completedAt;
+    }
+
+    function isPlayfulNoWrite(oldData, newData) {
+      return allAnswered(oldData.answers)
+        && newData.answers == oldData.answers
+        && oldData.finalNoAttempts < 3
+        && newData.finalNoAttempts == oldData.finalNoAttempts + 1
+        && newData.finalAttempts == oldData.finalAttempts + 1
+        && newData.finalDecision == "pending"
+        && newData.completedAt == null;
+    }
+
+    function isYesDecision(oldData, newData) {
+      return allAnswered(oldData.answers)
+        && newData.answers == oldData.answers
+        && newData.finalNoAttempts == oldData.finalNoAttempts
+        && newData.finalAttempts == oldData.finalAttempts + 1
+        && newData.finalDecision == "yes"
+        && newData.completedAt == request.time;
+    }
+
+    function isNoDecision(oldData, newData) {
+      return allAnswered(oldData.answers)
+        && newData.answers == oldData.answers
+        && oldData.finalNoAttempts == 3
+        && newData.finalNoAttempts == 4
+        && newData.finalAttempts == 4
+        && newData.finalDecision == "no"
+        && newData.completedAt == request.time;
+    }
+
+    match /quizRuns/{runId} {
+      allow read, delete: if false;
+
+      allow create: if signedIn() && validCreate(request.resource.data);
+
+      allow update: if signedIn()
+        && resource.data.ownerUid == request.auth.uid
+        && resource.data.finalDecision == "pending"
+        && validShape(request.resource.data)
+        && request.resource.data.updatedAt == request.time
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          "updatedAt", "answers", "finalNoAttempts", "finalAttempts",
+          "finalDecision", "completedAt"
+        ])
+        && (
+          isAnswerWrite(resource.data, request.resource.data)
+          || isPlayfulNoWrite(resource.data, request.resource.data)
+          || isYesDecision(resource.data, request.resource.data)
+          || isNoDecision(resource.data, request.resource.data)
+        );
+    }
+
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
