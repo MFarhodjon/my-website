@@ -39,6 +39,8 @@ async function loadFirebase() {
     ]).then(async ([appSdk, authSdk, firestoreSdk, appCheckSdk]) => {
       const app = appSdk.getApps().find(({ name }) => name === FIREBASE_APP_NAME)
         ?? appSdk.initializeApp(firebaseConfig, FIREBASE_APP_NAME);
+      const auth = authSdk.getAuth(app);
+      const credential = await authSdk.signInAnonymously(auth);
 
       if (appCheckSdk && appCheckSiteKey) {
         appCheckSdk.initializeAppCheck(app, {
@@ -46,9 +48,6 @@ async function loadFirebase() {
           isTokenAutoRefreshEnabled: true
         });
       }
-
-      const auth = authSdk.getAuth(app);
-      const credential = await authSdk.signInAnonymously(auth);
 
       return {
         db: firestoreSdk.getFirestore(app),
