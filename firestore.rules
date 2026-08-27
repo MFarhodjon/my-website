@@ -6,6 +6,11 @@ service cloud.firestore {
       return request.auth != null;
     }
 
+    function anonymousUser() {
+      return signedIn()
+        && request.auth.token.firebase.sign_in_provider == "anonymous";
+    }
+
     function isAnswer(value) {
       return value == "yes" || value == "no";
     }
@@ -83,6 +88,236 @@ service cloud.firestore {
         && data.finalDecision == "pending";
     }
 
+    function validPersonalityAnswers(answers) {
+      return answers is map
+        && answers.keys().hasAll([
+          "unknown_gathering", "free_day", "friend_bad_day", "menu_novelty",
+          "surprise_planning", "raccoon_snack", "recovery_style", "plan_breaks",
+          "own_bad_day", "mystery_activity", "talking_fridge", "celebration_style"
+        ])
+        && answers.keys().hasOnly([
+          "unknown_gathering", "free_day", "friend_bad_day", "menu_novelty",
+          "surprise_planning", "raccoon_snack", "recovery_style", "plan_breaks",
+          "own_bad_day", "mystery_activity", "talking_fridge", "celebration_style"
+        ])
+        && (answers.unknown_gathering == null || answers.unknown_gathering in ["meet_people", "trusted_person", "warm_up"])
+        && (answers.free_day == null || answers.free_day in ["plan_day", "follow_vibes", "one_anchor"])
+        && (answers.friend_bad_day == null || answers.friend_bad_day in ["listen", "solve", "ask_need"])
+        && (answers.menu_novelty == null || answers.menu_novelty in ["try_new", "choose_favorite", "taste_first"])
+        && (answers.surprise_planning == null || answers.surprise_planning in ["no_spoilers", "one_clue", "help_plan"])
+        && (answers.raccoon_snack == null || answers.raccoon_snack in ["negotiate", "formal_trial", "accept_management"])
+        && (answers.recovery_style == null || answers.recovery_style in ["favorite_people", "quiet_alone", "both"])
+        && (answers.plan_breaks == null || answers.plan_breaks in ["replan", "improvise", "pause_then_choose"])
+        && (answers.own_bad_day == null || answers.own_bad_day in ["talk_it_through", "space_first", "quiet_company"])
+        && (answers.mystery_activity == null || answers.mystery_activity in ["no_details", "need_basics", "depends_day"])
+        && (answers.talking_fridge == null || answers.talking_fridge in ["hear_out", "unplug", "ask_lottery"])
+        && (answers.celebration_style == null || answers.celebration_style in ["little_fuss", "private_words", "simple_time"]);
+    }
+
+    function personalityAnswersEmpty(answers) {
+      return answers.unknown_gathering == null
+        && answers.free_day == null
+        && answers.friend_bad_day == null
+        && answers.menu_novelty == null
+        && answers.surprise_planning == null
+        && answers.raccoon_snack == null
+        && answers.recovery_style == null
+        && answers.plan_breaks == null
+        && answers.own_bad_day == null
+        && answers.mystery_activity == null
+        && answers.talking_fridge == null
+        && answers.celebration_style == null;
+    }
+
+    function allPersonalityAnswered(answers) {
+      return answers.unknown_gathering != null
+        && answers.free_day != null
+        && answers.friend_bad_day != null
+        && answers.menu_novelty != null
+        && answers.surprise_planning != null
+        && answers.raccoon_snack != null
+        && answers.recovery_style != null
+        && answers.plan_breaks != null
+        && answers.own_bad_day != null
+        && answers.mystery_activity != null
+        && answers.talking_fridge != null
+        && answers.celebration_style != null;
+    }
+
+    function validPersonalityProfile(profile) {
+      return profile is map
+        && profile.keys().hasAll([
+          "socialRhythm", "planStyle", "adventureSetting", "careLanguage", "surpriseStyle"
+        ])
+        && profile.keys().hasOnly([
+          "socialRhythm", "planStyle", "adventureSetting", "careLanguage", "surpriseStyle"
+        ])
+        && (profile.socialRhythm == null || profile.socialRhythm in ["people_powered", "close_circle", "quiet_recharger", "balanced"])
+        && (profile.planStyle == null || profile.planStyle in ["structured", "improvised", "adaptive"])
+        && (profile.adventureSetting == null || profile.adventureSetting in ["novelty_first", "comfort_first", "context_first"])
+        && (profile.careLanguage == null || profile.careLanguage in ["listener", "problem_solver", "ask_first"])
+        && (profile.surpriseStyle == null || profile.surpriseStyle in ["full_mystery", "one_clue", "co_created"]);
+    }
+
+    function personalityProfileEmpty(profile) {
+      return profile.socialRhythm == null
+        && profile.planStyle == null
+        && profile.adventureSetting == null
+        && profile.careLanguage == null
+        && profile.surpriseStyle == null;
+    }
+
+    function personalityProfileComplete(profile) {
+      return profile.socialRhythm != null
+        && profile.planStyle != null
+        && profile.adventureSetting != null
+        && profile.careLanguage != null
+        && profile.surpriseStyle != null;
+    }
+
+    function personalityProfileMatchesAnswers(answers, profile) {
+      return (
+          (profile.socialRhythm == "people_powered"
+            && answers.unknown_gathering == "meet_people"
+            && answers.recovery_style in ["favorite_people", "both"])
+          || (profile.socialRhythm == "close_circle"
+            && answers.unknown_gathering == "trusted_person"
+            && answers.recovery_style in ["favorite_people", "both"])
+          || (profile.socialRhythm == "quiet_recharger"
+            && (
+              (answers.unknown_gathering == "warm_up" && answers.recovery_style in ["quiet_alone", "both"])
+              || (answers.unknown_gathering == "trusted_person" && answers.recovery_style == "quiet_alone")
+            ))
+          || (profile.socialRhythm == "balanced"
+            && (
+              (answers.unknown_gathering == "meet_people" && answers.recovery_style == "quiet_alone")
+              || (answers.unknown_gathering == "warm_up" && answers.recovery_style == "favorite_people")
+            ))
+        )
+        && (
+          (profile.planStyle == "structured"
+            && (
+              (answers.free_day == "plan_day" && answers.plan_breaks in ["replan", "pause_then_choose"])
+              || (answers.free_day == "one_anchor" && answers.plan_breaks == "replan")
+            ))
+          || (profile.planStyle == "improvised"
+            && (
+              (answers.free_day == "follow_vibes" && answers.plan_breaks in ["improvise", "pause_then_choose"])
+              || (answers.free_day == "one_anchor" && answers.plan_breaks == "improvise")
+            ))
+          || (profile.planStyle == "adaptive"
+            && (
+              (answers.free_day == "plan_day" && answers.plan_breaks == "improvise")
+              || (answers.free_day == "follow_vibes" && answers.plan_breaks == "replan")
+              || (answers.free_day == "one_anchor" && answers.plan_breaks == "pause_then_choose")
+            ))
+        )
+        && (
+          (profile.adventureSetting == "novelty_first"
+            && (
+              (answers.menu_novelty == "try_new" && answers.mystery_activity in ["no_details", "need_basics"])
+              || (answers.menu_novelty == "taste_first" && answers.mystery_activity == "no_details")
+            ))
+          || (profile.adventureSetting == "comfort_first"
+            && (
+              (answers.menu_novelty == "choose_favorite" && answers.mystery_activity in ["need_basics", "depends_day"])
+              || (answers.menu_novelty == "taste_first" && answers.mystery_activity == "depends_day")
+            ))
+          || (profile.adventureSetting == "context_first"
+            && (
+              (answers.menu_novelty == "try_new" && answers.mystery_activity == "depends_day")
+              || (answers.menu_novelty == "choose_favorite" && answers.mystery_activity == "no_details")
+              || (answers.menu_novelty == "taste_first" && answers.mystery_activity == "need_basics")
+            ))
+        )
+        && (
+          (answers.friend_bad_day == "listen" && profile.careLanguage == "listener")
+          || (answers.friend_bad_day == "solve" && profile.careLanguage == "problem_solver")
+          || (answers.friend_bad_day == "ask_need" && profile.careLanguage == "ask_first")
+        )
+        && (
+          (answers.surprise_planning == "no_spoilers" && profile.surpriseStyle == "full_mystery")
+          || (answers.surprise_planning == "one_clue" && profile.surpriseStyle == "one_clue")
+          || (answers.surprise_planning == "help_plan" && profile.surpriseStyle == "co_created")
+        );
+    }
+
+    function validPersonalityShape(data) {
+      return data.keys().hasAll([
+          "ownerUid", "schemaVersion", "gameVersion", "startedAt", "updatedAt",
+          "completedAt", "answers", "profile", "finalResponse"
+        ])
+        && data.keys().hasOnly([
+          "ownerUid", "schemaVersion", "gameVersion", "startedAt", "updatedAt",
+          "completedAt", "answers", "profile", "finalResponse"
+        ])
+        && data.ownerUid is string
+        && data.schemaVersion == 1
+        && data.gameVersion == "instinct-surprise-v1"
+        && data.startedAt is timestamp
+        && data.updatedAt is timestamp
+        && (data.completedAt == null || data.completedAt is timestamp)
+        && validPersonalityAnswers(data.answers)
+        && validPersonalityProfile(data.profile)
+        && (data.finalResponse == null || data.finalResponse in ["use_settings", "show_idea", "not_now"]);
+    }
+
+    function validPersonalityCreate(data) {
+      return validPersonalityShape(data)
+        && data.ownerUid == request.auth.uid
+        && data.startedAt == request.time
+        && data.updatedAt == request.time
+        && data.completedAt == null
+        && personalityAnswersEmpty(data.answers)
+        && personalityProfileEmpty(data.profile)
+        && data.finalResponse == null;
+    }
+
+    function isPersonalityAnswerWrite(oldData, newData) {
+      return newData.answers.diff(oldData.answers).affectedKeys().size() == 1
+        && (newData.answers.unknown_gathering == oldData.answers.unknown_gathering || (oldData.answers.unknown_gathering == null && newData.answers.unknown_gathering != null))
+        && (newData.answers.free_day == oldData.answers.free_day || (oldData.answers.free_day == null && newData.answers.free_day != null))
+        && (newData.answers.friend_bad_day == oldData.answers.friend_bad_day || (oldData.answers.friend_bad_day == null && newData.answers.friend_bad_day != null))
+        && (newData.answers.menu_novelty == oldData.answers.menu_novelty || (oldData.answers.menu_novelty == null && newData.answers.menu_novelty != null))
+        && (newData.answers.surprise_planning == oldData.answers.surprise_planning || (oldData.answers.surprise_planning == null && newData.answers.surprise_planning != null))
+        && (newData.answers.raccoon_snack == oldData.answers.raccoon_snack || (oldData.answers.raccoon_snack == null && newData.answers.raccoon_snack != null))
+        && (newData.answers.recovery_style == oldData.answers.recovery_style || (oldData.answers.recovery_style == null && newData.answers.recovery_style != null))
+        && (newData.answers.plan_breaks == oldData.answers.plan_breaks || (oldData.answers.plan_breaks == null && newData.answers.plan_breaks != null))
+        && (newData.answers.own_bad_day == oldData.answers.own_bad_day || (oldData.answers.own_bad_day == null && newData.answers.own_bad_day != null))
+        && (newData.answers.mystery_activity == oldData.answers.mystery_activity || (oldData.answers.mystery_activity == null && newData.answers.mystery_activity != null))
+        && (newData.answers.talking_fridge == oldData.answers.talking_fridge || (oldData.answers.talking_fridge == null && newData.answers.talking_fridge != null))
+        && (newData.answers.celebration_style == oldData.answers.celebration_style || (oldData.answers.celebration_style == null && newData.answers.celebration_style != null))
+        && personalityProfileEmpty(oldData.profile)
+        && newData.profile == oldData.profile
+        && oldData.finalResponse == null
+        && newData.finalResponse == oldData.finalResponse
+        && oldData.completedAt == null
+        && newData.completedAt == oldData.completedAt;
+    }
+
+    function isPersonalityProfileWrite(oldData, newData) {
+      return allPersonalityAnswered(oldData.answers)
+        && newData.answers == oldData.answers
+        && personalityProfileEmpty(oldData.profile)
+        && personalityProfileComplete(newData.profile)
+        && personalityProfileMatchesAnswers(newData.answers, newData.profile)
+        && oldData.finalResponse == null
+        && newData.finalResponse == null
+        && oldData.completedAt == null
+        && newData.completedAt == null;
+    }
+
+    function isPersonalityCompletion(oldData, newData) {
+      return allPersonalityAnswered(oldData.answers)
+        && personalityProfileComplete(oldData.profile)
+        && newData.answers == oldData.answers
+        && newData.profile == oldData.profile
+        && oldData.finalResponse == null
+        && newData.finalResponse in ["use_settings", "show_idea", "not_now"]
+        && oldData.completedAt == null
+        && newData.completedAt == request.time;
+    }
+
     function answerMovesForward(oldValue, newValue) {
       return newValue == oldValue
         || (oldValue == null && isAnswer(newValue));
@@ -153,6 +388,26 @@ service cloud.firestore {
           || isPlayfulNoWrite(resource.data, request.resource.data)
           || isYesDecision(resource.data, request.resource.data)
           || isNoDecision(resource.data, request.resource.data)
+        );
+    }
+
+    match /personalityRuns/{runId} {
+      allow read, delete: if false;
+
+      allow create: if anonymousUser() && validPersonalityCreate(request.resource.data);
+
+      allow update: if anonymousUser()
+        && resource.data.ownerUid == request.auth.uid
+        && resource.data.completedAt == null
+        && validPersonalityShape(request.resource.data)
+        && request.resource.data.updatedAt == request.time
+        && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+          "updatedAt", "answers", "profile", "finalResponse", "completedAt"
+        ])
+        && (
+          isPersonalityAnswerWrite(resource.data, request.resource.data)
+          || isPersonalityProfileWrite(resource.data, request.resource.data)
+          || isPersonalityCompletion(resource.data, request.resource.data)
         );
     }
 

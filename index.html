@@ -48,7 +48,10 @@
       <h1 id="startTitle" tabindex="-1">The Totally Scientific Good-Mood Test</h1>
       <p class="lead"><strong>30 seconds. 5 tiny choices. Zero wrong answers.</strong></p>
       <p class="supporting">Warning: may improve your mood for no serious reason.</p>
-      <button class="button primary" id="startButton" type="button">Let's see 😄</button>
+      <div class="start-actions">
+        <button class="button primary" id="startButton" type="button">Let's see 😄</button>
+        <a class="button secondary game-link" href="personality.html">Try the instinct game 🦝</a>
+      </div>
     </section>
 
     <section class="screen" id="quizScreen" aria-labelledby="questionTitle" hidden>
@@ -94,7 +97,10 @@
       <h2 id="endingTitle" tabindex="-1">Deal! 🎉</h2>
       <p class="profile-description" id="endingMessage"></p>
       <p class="tiny-joke" id="endingJoke"></p>
-      <button class="button secondary" id="replayButton" type="button">Play it again ↻</button>
+      <div class="ending-actions">
+        <button class="button secondary" id="replayButton" type="button">Play it again ↻</button>
+        <a class="button secondary game-link" href="personality.html">Try the instinct game 🦝</a>
+      </div>
     </section>
   </main>
 

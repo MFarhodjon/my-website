@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="A completely normal one-minute instinct game with absolutely no suspicious ending">
+  <meta name="theme-color" content="#f3efff">
+  <title>The Totally Normal Instinct Test</title>
+  <link rel="preload" href="assets/raccoon-mascot.png" as="image">
+  <link rel="preconnect" href="https://giphy.com">
+  <link rel="stylesheet" href="personality.css">
+</head>
+<body data-theme="violet">
+  <div class="ambient-shapes" aria-hidden="true">
+    <span></span><span></span><span></span><span></span><span></span><span></span>
+  </div>
+
+  <main class="game-shell" id="game" data-view="start">
+    <nav class="game-nav" aria-label="Game navigation">
+      <a href="./" class="back-link">← First game</a>
+      <span class="round-time">About 90 seconds</span>
+    </nav>
+
+    <header class="progress-header" id="progressHeader" hidden>
+      <div class="progress-copy">
+        <span id="progressLabel">Question 1 of 12</span>
+        <span id="progressStatus">Instinct check</span>
+      </div>
+      <div class="progress-track" id="progressTrack" role="progressbar" aria-valuemin="0" aria-valuemax="12" aria-valuenow="1">
+        <span class="progress-bar" id="progressBar"></span>
+      </div>
+    </header>
+
+    <div class="mascot-stage" id="mascotStage" aria-hidden="true">
+      <span class="mascot-prop" id="mascotProp">🔐</span>
+      <img class="mascot" id="mascot" src="assets/raccoon-mascot.png" alt="">
+      <div class="collected-icons" id="collectedIcons"></div>
+    </div>
+
+    <section class="screen start-screen" id="startScreen" aria-labelledby="startTitle">
+      <p class="eyebrow">A completely normal little game</p>
+      <h1 id="startTitle" tabindex="-1">The Totally Normal Instinct Test</h1>
+      <p class="lead"><strong>About 90 seconds. 12 tiny situations. Three choices each. No correct answers.</strong></p>
+      <p class="supporting">Choose what you would actually do. The raccoon promises not to overthink it.</p>
+      <button class="button primary" id="startButton" type="button">Trust the raccoon 🦝</button>
+    </section>
+
+    <section class="screen question-screen" id="questionScreen" aria-labelledby="questionTitle" hidden>
+      <p class="eyebrow" id="questionEyebrow">Instinct choice 1</p>
+      <h2 id="questionTitle" tabindex="-1">What would you actually do?</h2>
+      <p class="question-hint" id="questionHint">Go with your first honest answer.</p>
+      <div class="choice-grid" id="choiceGrid"></div>
+    </section>
+
+    <section class="screen reaction-screen" id="reactionScreen" aria-labelledby="reactionTitle" hidden>
+      <p class="eyebrow" id="reactionEyebrow">Extremely serious observation</p>
+      <div class="reaction-gif-frame" id="reactionGifFrame">
+        <iframe
+          id="reactionGif"
+          class="reaction-gif"
+          src="about:blank"
+          title="Meme reaction"
+          allow="autoplay; fullscreen"
+          referrerpolicy="no-referrer"
+        ></iframe>
+      </div>
+      <a class="gif-credit" id="gifCredit" href="https://giphy.com/" target="_blank" rel="noopener noreferrer">via GIPHY</a>
+      <h2 id="reactionTitle" tabindex="-1">Vibe scan in progress.</h2>
+      <p class="reaction-caption">Next situation arriving automatically…</p>
+      <div class="reaction-timer" aria-hidden="true"><span id="reactionTimerBar"></span></div>
+    </section>
+
+    <section class="screen analysis-screen" id="analysisScreen" aria-labelledby="analysisTitle" hidden>
+      <p class="eyebrow">Official analysis in progress</p>
+      <h2 id="analysisTitle" tabindex="-1">Consulting the very serious algorithm…</h2>
+      <div class="analysis-list" aria-live="polite">
+        <p data-analysis-step="0"><span>✓</span> Sorting twelve highly important decisions</p>
+        <p data-analysis-step="1"><span>✓</span> Cross-checking raccoon diplomacy</p>
+        <p data-analysis-step="2"><span>✓</span> Asking the refrigerator—and regretting it</p>
+      </div>
+      <div class="thinking-dots" aria-hidden="true"><span></span><span></span><span></span></div>
+    </section>
+
+    <section class="screen fake-result-screen" id="fakeResultScreen" aria-labelledby="fakeResultTitle" hidden>
+      <p class="eyebrow">Official result</p>
+      <div class="certificate" id="certificate">
+        <span class="certificate-seal" aria-hidden="true">★</span>
+        <p>THIS CERTIFIES THAT YOU ARE</p>
+        <h2 id="fakeResultTitle" tabindex="-1">The Thoughtful Side-Quest Goblin</h2>
+        <small>Qualified in vibes, backup plans, and snack law.</small>
+      </div>
+      <p class="certificate-note">Please allow 3–5 business days for this result to make sense.</p>
+    </section>
+
+    <section class="screen twist-screen" id="twistScreen" aria-labelledby="twistTitle" hidden>
+      <p class="eyebrow alert">Certificate compromised</p>
+      <div class="record-scratch" aria-hidden="true">⏪</div>
+      <h2 id="twistTitle" tabindex="-1">Wait… that result was nonsense.</h2>
+      <p class="lead">The raccoon has been collecting something else this whole time.</p>
+    </section>
+
+    <section class="screen result-screen" id="resultScreen" aria-labelledby="resultTitle" hidden>
+      <p class="eyebrow">The real result</p>
+      <h2 id="resultTitle" tabindex="-1">Your Good-Day Blueprint</h2>
+      <p class="result-intro">Plot twist: these choices were quietly showing what helps you feel comfortable, cared for, and excited.</p>
+
+      <div class="blueprint-grid" id="blueprintGrid"></div>
+
+      <div class="absurd-notes" id="absurdNotes" aria-label="Unofficial bonus findings"></div>
+
+      <div class="final-question" aria-labelledby="finalQuestionTitle">
+        <p class="eyebrow">One last thing</p>
+        <h3 id="finalQuestionTitle">Should I turn this blueprint into a real little experience for us?</h3>
+        <p>Every answer is valid. Even the raccoon agrees.</p>
+        <div class="final-choice-grid" id="finalChoiceGrid">
+          <button class="button final-choice" type="button" data-response="use_settings">Yes—use my settings ✨</button>
+          <button class="button final-choice" type="button" data-response="show_idea">Show me the idea first 🔎</button>
+          <button class="button final-choice" type="button" data-response="not_now">Not right now 🙂</button>
+        </div>
+      </div>
+    </section>
+
+    <section class="screen ending-screen" id="endingScreen" aria-labelledby="endingTitle" hidden>
+      <p class="eyebrow" id="endingEyebrow">Blueprint received</p>
+      <h2 id="endingTitle" tabindex="-1">Settings saved! 🎉</h2>
+      <p class="lead" id="endingMessage"></p>
+      <p class="ending-joke" id="endingJoke"></p>
+      <div class="ending-actions">
+        <button class="button primary" id="replayButton" type="button">Play again ↻</button>
+        <a class="button secondary" href="./">Play the first game</a>
+      </div>
+    </section>
+  </main>
+
+  <div class="confetti" id="confetti" aria-hidden="true"></div>
+  <script type="module" src="personality.js"></script>
+</body>
+</html>
