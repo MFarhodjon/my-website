@@ -253,7 +253,7 @@ service cloud.firestore {
         ])
         && data.ownerUid is string
         && data.schemaVersion == 1
-        && data.gameVersion == "instinct-surprise-v1"
+        && data.gameVersion in ["instinct-surprise-v1", "instinct-surprise-v2"]
         && data.startedAt is timestamp
         && data.updatedAt is timestamp
         && (data.completedAt == null || data.completedAt is timestamp)

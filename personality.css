@@ -293,7 +293,7 @@ h3 { font-size: clamp(1.5rem, 4vw, 2.2rem); }
   line-height: 1.55;
 }
 
-.supporting, .question-hint, .reaction-caption, .certificate-note, .result-intro, .final-question > p, .ending-joke {
+.supporting, .question-hint, .reaction-caption, .result-intro, .final-question > p, .ending-joke {
   max-width: 600px;
   margin: 12px auto 0;
   color: var(--muted);
@@ -412,8 +412,25 @@ h3 { font-size: clamp(1.5rem, 4vw, 2.2rem); }
 
 .reaction-gif-frame.is-loading::after { opacity: 1; }
 
+.reaction-fallback {
+  position: absolute;
+  z-index: 0;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  gap: 8px;
+  color: white;
+  background: linear-gradient(145deg, #2c3448, #111827);
+  text-align: center;
+}
+
+.reaction-fallback span { font-size: 4.4rem; line-height: 1; }
+.reaction-fallback small { padding-inline: 18px; color: #dce4f3; font-weight: 800; }
+.reaction-gif-frame.is-fallback .reaction-gif { opacity: 0; }
+
 .reaction-gif {
   position: absolute;
+  z-index: 1;
   inset: 0;
   width: 100%;
   height: 100%;
@@ -497,61 +514,116 @@ h3 { font-size: clamp(1.5rem, 4vw, 2.2rem); }
 .thinking-dots span:nth-child(2) { animation-delay: .15s; }
 .thinking-dots span:nth-child(3) { animation-delay: .3s; }
 
-.certificate {
-  position: relative;
-  width: min(590px, 100%);
-  margin: 8px auto 0;
-  padding: 38px 30px 34px;
-  border: 4px double #b9830a;
-  border-radius: 12px;
-  background: linear-gradient(145deg, #fffdf5, #fff3ca);
-  box-shadow: 0 20px 45px rgba(116, 79, 8, .18);
-  rotate: -1deg;
-  animation: certificate-arrive .65s cubic-bezier(.2, .8, .2, 1.2) both;
-}
-
-.certificate p {
-  margin: 0 0 13px;
-  color: #84640f;
-  font-size: .72rem;
-  font-weight: 950;
-  letter-spacing: .14em;
-}
-
-.certificate h2 { color: #4f3a08; font-family: Georgia, serif; font-size: clamp(2rem, 5vw, 3.2rem); }
-.certificate small { display: block; margin-top: 17px; color: #84640f; font-weight: 700; }
-
-.certificate-seal {
-  position: absolute;
-  top: -20px;
-  right: -15px;
-  width: 58px;
-  height: 58px;
+.countdown-gift,
+.secret-file-icon {
+  width: 112px;
+  height: 112px;
+  margin: 25px auto 6px;
   display: grid;
   place-items: center;
-  border: 5px solid #ffdc6d;
-  border-radius: 50%;
-  color: #fff7cf;
-  background: #bd3b47;
-  box-shadow: 0 7px 15px rgba(83, 30, 38, .22);
-  rotate: 11deg;
-}
-
-.record-scratch {
-  width: 105px;
-  height: 105px;
-  margin: 0 auto 18px;
-  display: grid;
-  place-items: center;
-  border-radius: 50%;
+  border: 4px solid white;
+  border-radius: 32px;
   background: var(--accent-soft);
-  box-shadow: 0 13px 28px var(--accent-glow);
-  font-size: 3.5rem;
-  animation: scratch .48s steps(2, end) 3;
+  box-shadow: 0 16px 32px var(--accent-glow);
+  font-size: 4rem;
 }
+
+.countdown-gift { animation: gift-shake .7s ease-in-out infinite; }
+
+.countdown-number {
+  min-height: 1.1em;
+  margin-top: 8px;
+  color: var(--accent-dark);
+  font-size: clamp(5rem, 17vw, 8rem);
+  font-weight: 950;
+  line-height: 1;
+  text-shadow: 0 12px 24px var(--accent-glow);
+  animation: countdown-pop .55s cubic-bezier(.2, .8, .2, 1.2) both;
+}
+
+.prank-screen h2 { margin-top: 20px; }
+
+.glitch-card {
+  width: min(520px, 100%);
+  margin: 12px auto 23px;
+  padding: 31px 18px;
+  overflow: hidden;
+  border: 3px solid #e25462;
+  border-radius: 18px;
+  color: white;
+  background: #151827;
+  box-shadow: 10px 8px 0 #14b8a6, -9px -7px 0 #7c3aed;
+  font-size: clamp(1.2rem, 4vw, 2rem);
+  font-weight: 950;
+  letter-spacing: .1em;
+  animation: glitch-jump .22s steps(2, end) 5;
+}
+
+.secret-file-icon { animation: file-unlock .65s cubic-bezier(.2, .8, .2, 1.2) both; }
+
+.mission-preview-card {
+  width: min(560px, 100%);
+  min-height: 185px;
+  margin: 28px auto 0;
+  padding: 24px;
+  display: grid;
+  place-items: center;
+  gap: 9px;
+  border: 2px solid var(--accent-glow);
+  border-radius: 25px;
+  background: linear-gradient(145deg, rgba(255,255,255,.9), var(--accent-soft));
+  box-shadow: 0 16px 36px var(--accent-glow);
+}
+
+.mission-preview-card.changing { animation: mission-card-swap .45s cubic-bezier(.2, .72, .2, 1) both; }
+.mission-preview-icon { font-size: 3rem; line-height: 1; }
+.mission-preview-card strong { color: var(--accent-dark); font-size: .82rem; letter-spacing: .12em; text-transform: uppercase; }
+.mission-preview-card p { margin: 0; color: #344057; font-size: 1.08rem; font-weight: 800; line-height: 1.45; }
+
+.mission-build-progress {
+  margin-top: 21px;
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+}
+
+.mission-build-progress span {
+  width: 34px;
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(101, 112, 135, .16);
+  transition: background .25s ease, transform .25s ease;
+}
+
+.mission-build-progress span.active { background: var(--accent); transform: scaleX(1.12); }
 
 .result-screen { padding-bottom: 5px; }
 .result-intro { font-size: 1.02rem; }
+
+.mission-stamp {
+  width: fit-content;
+  margin: 0 auto 13px;
+  padding: 7px 12px;
+  border: 2px solid var(--accent);
+  border-radius: 8px;
+  color: var(--accent-dark);
+  font-size: .69rem;
+  font-weight: 950;
+  letter-spacing: .12em;
+  rotate: -2deg;
+}
+
+.mission-archetype {
+  width: fit-content;
+  margin: 14px auto 0;
+  padding: 8px 14px;
+  border-radius: 999px;
+  color: white;
+  background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+  box-shadow: 0 9px 20px var(--accent-glow);
+  font-size: .84rem;
+  font-weight: 900;
+}
 
 .blueprint-grid {
   margin-top: 27px;
@@ -660,8 +732,11 @@ h3 { font-size: clamp(1.5rem, 4vw, 2.2rem); }
 @keyframes icon-pop { from { opacity: 0; transform: scale(0) rotate(-20deg); } to { opacity: 1; transform: scale(1); } }
 @keyframes reaction-time { to { width: 100%; } }
 @keyframes dot-bounce { to { transform: translateY(-9px); opacity: .42; } }
-@keyframes certificate-arrive { from { opacity: 0; transform: scale(.75) rotate(7deg); } to { opacity: 1; transform: none; } }
-@keyframes scratch { 50% { transform: translateX(-7px) rotate(-8deg); } }
+@keyframes gift-shake { 25% { transform: rotate(-5deg); } 50% { transform: translateY(-6px) rotate(5deg); } 75% { transform: rotate(-3deg); } }
+@keyframes countdown-pop { from { opacity: 0; transform: scale(.45); } to { opacity: 1; transform: scale(1); } }
+@keyframes glitch-jump { 50% { transform: translate(5px, -2px) skewX(-4deg); filter: hue-rotate(45deg); } }
+@keyframes file-unlock { from { opacity: 0; transform: rotate(-13deg) scale(.65); } to { opacity: 1; transform: none; } }
+@keyframes mission-card-swap { from { opacity: .15; transform: translateY(10px) scale(.98); } to { opacity: 1; transform: none; } }
 @keyframes blueprint-in { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: none; } }
 @keyframes confetti-fall { to { transform: translate3d(var(--drift), 110vh, 0) rotate(720deg); opacity: .75; } }
 
@@ -683,7 +758,7 @@ h3 { font-size: clamp(1.5rem, 4vw, 2.2rem); }
   .choice-label { font-size: .96rem; }
   .reaction-gif-frame { width: min(350px, 100%); border-radius: 20px; }
   .analysis-list p { padding: 12px 13px; font-size: .86rem; }
-  .certificate { padding: 33px 19px 28px; }
+  .countdown-gift, .secret-file-icon { width: 92px; height: 92px; border-radius: 26px; font-size: 3.2rem; }
   .blueprint-grid { grid-template-columns: 1fr; }
   .blueprint-card:last-child { grid-column: auto; }
   .final-choice-grid { grid-template-columns: 1fr; }

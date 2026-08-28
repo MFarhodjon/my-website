@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="A completely normal 90-second instinct game with absolutely no suspicious ending">
+  <meta name="description" content="A completely normal two-minute instinct game with absolutely no suspicious ending">
   <meta name="theme-color" content="#f3efff">
   <title>The Totally Normal Instinct Test</title>
   <link rel="preload" href="assets/raccoon-mascot.png" as="image">
@@ -18,7 +18,7 @@
   <main class="game-shell" id="game" data-view="start">
     <nav class="game-nav" aria-label="Game navigation">
       <a href="./" class="back-link">← First game</a>
-      <span class="round-time">About 90 seconds</span>
+      <span class="round-time">About 2 minutes</span>
     </nav>
 
     <header class="progress-header" id="progressHeader" hidden>
@@ -40,7 +40,7 @@
     <section class="screen start-screen" id="startScreen" aria-labelledby="startTitle">
       <p class="eyebrow">A completely normal little game</p>
       <h1 id="startTitle" tabindex="-1">The Totally Normal Instinct Test</h1>
-      <p class="lead"><strong>About 90 seconds. 12 tiny situations. Three choices each. No correct answers.</strong></p>
+      <p class="lead"><strong>About 2 minutes. 12 simple situations. Three choices each. No wrong answers.</strong></p>
       <p class="supporting">Choose what you would actually do. The raccoon promises not to overthink it.</p>
       <button class="button primary" id="startButton" type="button">Trust the raccoon 🦝</button>
     </section>
@@ -55,6 +55,10 @@
     <section class="screen reaction-screen" id="reactionScreen" aria-labelledby="reactionTitle" hidden>
       <p class="eyebrow" id="reactionEyebrow">Extremely serious observation</p>
       <div class="reaction-gif-frame" id="reactionGifFrame">
+        <div class="reaction-fallback" id="reactionFallback" aria-hidden="true">
+          <span id="reactionFallbackEmoji">🦝</span>
+          <small>The raccoon understood that reaction.</small>
+        </div>
         <iframe
           id="reactionGif"
           class="reaction-gif"
@@ -71,51 +75,93 @@
     </section>
 
     <section class="screen analysis-screen" id="analysisScreen" aria-labelledby="analysisTitle" hidden>
-      <p class="eyebrow">Official analysis in progress</p>
-      <h2 id="analysisTitle" tabindex="-1">Consulting the very serious algorithm…</h2>
+      <p class="eyebrow">12 out of 12 completed</p>
+      <h2 id="analysisTitle" tabindex="-1">Checking your highly scientific decisions…</h2>
       <div class="analysis-list" aria-live="polite">
-        <p data-analysis-step="0"><span>✓</span> Sorting twelve highly important decisions</p>
-        <p data-analysis-step="1"><span>✓</span> Cross-checking raccoon diplomacy</p>
-        <p data-analysis-step="2"><span>✓</span> Asking the refrigerator—and regretting it</p>
+        <p data-analysis-step="0"><span>✓</span> Reading all twelve answers</p>
+        <p data-analysis-step="1"><span>✓</span> Checking the raccoon snack report</p>
+        <p data-analysis-step="2"><span>✓</span> Ignoring the refrigerator's advice</p>
       </div>
       <div class="thinking-dots" aria-hidden="true"><span></span><span></span><span></span></div>
     </section>
 
-    <section class="screen fake-result-screen" id="fakeResultScreen" aria-labelledby="fakeResultTitle" hidden>
-      <p class="eyebrow">Official result</p>
-      <div class="certificate" id="certificate">
-        <span class="certificate-seal" aria-hidden="true">★</span>
-        <p>THIS CERTIFIES THAT YOU ARE</p>
-        <h2 id="fakeResultTitle" tabindex="-1">The Thoughtful Side-Quest Goblin</h2>
-        <small>Qualified in vibes, backup plans, and snack law.</small>
-      </div>
-      <p class="certificate-note">Please allow 3–5 business days for this result to make sense.</p>
+    <section class="screen countdown-screen" id="countdownScreen" aria-labelledby="countdownTitle" hidden>
+      <p class="eyebrow">Your result is ready</p>
+      <h2 id="countdownTitle" tabindex="-1">Wait for the surprise…</h2>
+      <div class="countdown-gift" aria-hidden="true">🎁</div>
+      <div class="countdown-number" id="countdownNumber" aria-live="polite">3</div>
+      <p class="supporting">No tapping. It will open by itself.</p>
     </section>
 
-    <section class="screen twist-screen" id="twistScreen" aria-labelledby="twistTitle" hidden>
-      <p class="eyebrow alert">Certificate compromised</p>
-      <div class="record-scratch" aria-hidden="true">⏪</div>
-      <h2 id="twistTitle" tabindex="-1">Wait… that result was nonsense.</h2>
-      <p class="lead">The raccoon has been collecting something else this whole time.</p>
+    <section class="screen prank-screen" id="prankScreen" aria-labelledby="prankTitle" hidden>
+      <p class="eyebrow alert">The surprise</p>
+      <div class="reaction-gif-frame" id="prankGifFrame">
+        <div class="reaction-fallback" id="prankFallback" aria-hidden="true">
+          <span>😏</span>
+          <small>Got you.</small>
+        </div>
+        <iframe
+          id="prankGif"
+          class="reaction-gif"
+          src="about:blank"
+          title="Got you prank reaction GIF"
+          allow="autoplay; fullscreen"
+          referrerpolicy="no-referrer"
+        ></iframe>
+      </div>
+      <a class="gif-credit" href="https://giphy.com/gifs/cbs-the-neighborhood-theneighborhood-cedric-entertainer-ue0FFiQufbwvI2Dyit" target="_blank" rel="noopener noreferrer">via GIPHY</a>
+      <h2 id="prankTitle" tabindex="-1">Nothing.</h2>
+      <p class="lead">I got you. 😌</p>
+    </section>
+
+    <section class="screen rescue-screen" id="rescueScreen" aria-labelledby="rescueTitle" hidden>
+      <p class="eyebrow alert">Wait…</p>
+      <div class="glitch-card" aria-hidden="true"><span>NOT THE REAL ENDING</span></div>
+      <h2 id="rescueTitle" tabindex="-1">Okay, that would have been rude.</h2>
+      <p class="lead">That was only the fake surprise.</p>
+    </section>
+
+    <section class="screen real-twist-screen" id="realTwistScreen" aria-labelledby="realTwistTitle" hidden>
+      <p class="eyebrow">Actual plot twist</p>
+      <div class="secret-file-icon" aria-hidden="true">🗂️</div>
+      <h2 id="realTwistTitle" tabindex="-1">I was secretly collecting instructions.</h2>
+      <p class="lead">Your answers were building a plan for a day you would actually enjoy.</p>
+    </section>
+
+    <section class="screen mission-build-screen" id="missionBuildScreen" aria-labelledby="missionBuildTitle" hidden>
+      <p class="eyebrow">Opening the classified file</p>
+      <h2 id="missionBuildTitle" tabindex="-1">Building your mission…</h2>
+      <div class="mission-preview-card" id="missionPreviewCard">
+        <span class="mission-preview-icon" id="missionPreviewIcon" aria-hidden="true">📍</span>
+        <strong id="missionPreviewLabel">The setting</strong>
+        <p id="missionPreviewText">Choosing the right kind of place…</p>
+      </div>
+      <div class="mission-build-progress" aria-hidden="true">
+        <span data-mission-dot="0"></span>
+        <span data-mission-dot="1"></span>
+        <span data-mission-dot="2"></span>
+      </div>
     </section>
 
     <section class="screen result-screen" id="resultScreen" aria-labelledby="resultTitle" hidden>
-      <p class="eyebrow">The real result</p>
-      <h2 id="resultTitle" tabindex="-1">Your Good-Day Blueprint</h2>
-      <p class="result-intro">Plot twist: these choices were quietly showing what helps you feel comfortable, cared for, and excited.</p>
+      <p class="eyebrow">Classified file unlocked</p>
+      <div class="mission-stamp">TOP SECRET · RACCOON APPROVED</div>
+      <h2 id="resultTitle" tabindex="-1">Operation Good Day</h2>
+      <p class="mission-archetype" id="missionArchetype"></p>
+      <p class="result-intro">Not a label or a test result—just the clearest clues your choices gave us.</p>
 
       <div class="blueprint-grid" id="blueprintGrid"></div>
 
       <div class="absurd-notes" id="absurdNotes" aria-label="Unofficial bonus findings"></div>
 
       <div class="final-question" aria-labelledby="finalQuestionTitle">
-        <p class="eyebrow">One last thing</p>
-        <h3 id="finalQuestionTitle">Should I turn this blueprint into a real little experience for us?</h3>
-        <p>Every answer is valid. Even the raccoon agrees.</p>
+        <p class="eyebrow">Mission file complete</p>
+        <h3 id="finalQuestionTitle">What should happen next?</h3>
+        <p>All three answers are completely okay.</p>
         <div class="final-choice-grid" id="finalChoiceGrid">
-          <button class="button final-choice" type="button" data-response="use_settings">Yes—use my settings ✨</button>
-          <button class="button final-choice" type="button" data-response="show_idea">Show me the idea first 🔎</button>
-          <button class="button final-choice" type="button" data-response="not_now">Not right now 🙂</button>
+          <button class="button final-choice" type="button" data-response="use_settings">Build the mission ✨</button>
+          <button class="button final-choice" type="button" data-response="show_idea">Show me a preview 🔎</button>
+          <button class="button final-choice" type="button" data-response="not_now">Save it for later 🙂</button>
         </div>
       </div>
     </section>

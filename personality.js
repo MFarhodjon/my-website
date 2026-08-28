@@ -1,341 +1,15 @@
 import { personalityTelemetry } from './personality-tracker.js';
+import {
+  prankGif,
+  questions,
+  reactionAssets,
+  validatePersonalityData
+} from './personality-data.js';
 
 const REACTION_MS = 3000;
-const GIF_LOAD_TIMEOUT_MS = 2500;
+const GIF_LOAD_TIMEOUT_MS = 1600;
 
-const memeGifs = {
-  sideEye: {
-    id: 'H5C8CevNMbpBqNqFjl',
-    page: 'https://giphy.com/gifs/H5C8CevNMbpBqNqFjl'
-  },
-  blinking: {
-    id: 'l3q2K5jinAlChoCLS',
-    page: 'https://giphy.com/gifs/mashable-l3q2K5jinAlChoCLS'
-  },
-  awkward: {
-    id: 'ud8UQU45RI3mDwlkFI',
-    page: 'https://giphy.com/gifs/when-you-have-to-smile-dont-know-how-react-kinda-friendly-ud8UQU45RI3mDwlkFI'
-  },
-  celebration: {
-    id: 'sVnKj2wDhUTsFKFWhx',
-    page: 'https://giphy.com/gifs/theoffice-sVnKj2wDhUTsFKFWhx'
-  },
-  dance: {
-    id: '4mWrik7xIjsNDStrnl',
-    page: 'https://giphy.com/gifs/muppetwiki-shimmy-muppets-from-space-4mWrik7xIjsNDStrnl'
-  },
-  facepalm: {
-    id: 'xT1XGvQsbTq3JRF7YQ',
-    page: 'https://giphy.com/gifs/originals-reaction-xT1XGvQsbTq3JRF7YQ'
-  },
-  mindBlown: {
-    id: 'l4FGvUYI0tETAQwGk',
-    page: 'https://giphy.com/gifs/debbyryan-debby-ryan-l4FGvUYI0tETAQwGk'
-  },
-  ohMyGod: {
-    id: 'MZocLC5dJprPTcrm65',
-    page: 'https://giphy.com/gifs/theoffice-MZocLC5dJprPTcrm65'
-  },
-  slowClap: {
-    id: 'l378o7dYnoHlgH4ha',
-    page: 'https://giphy.com/gifs/nba-l378o7dYnoHlgH4ha'
-  },
-  surprised: {
-    id: 'O1fADjyIaQeu7tEUuU',
-    page: 'https://giphy.com/gifs/iamcatali-reaction-i-did-not-see-that-coming-love-a-plot-twist-O1fADjyIaQeu7tEUuU'
-  },
-  approval: {
-    id: 'KffdTQfewxdbKTGEJY',
-    page: 'https://giphy.com/gifs/yes-jum-charlottekhm-KffdTQfewxdbKTGEJY'
-  },
-  supportNod: {
-    id: 'tthQVoLHhoXGks5niy',
-    page: 'https://giphy.com/gifs/NetflixKorea-netflix-netflixkr-netflixkorea-tthQVoLHhoXGks5niy'
-  },
-  problemSolved: {
-    id: '5z0cCCGooBQUtejM4v',
-    page: 'https://giphy.com/gifs/thedailyshow-funny-reaction-5z0cCCGooBQUtejM4v'
-  },
-  angryMonkey: {
-    id: 'l0HlGd1H6XkdlfjZS',
-    page: 'https://giphy.com/gifs/pgtips-l0HlGd1H6XkdlfjZS'
-  }
-};
-
-const questions = [
-  {
-    id: 'unknown_gathering',
-    theme: 'violet',
-    icon: '👋',
-    prompt: 'You arrive at a gathering knowing one person. You usually…',
-    choices: [
-      {
-        id: 'meet_people', label: 'Start meeting people', icon: '👋', gif: 'celebration', pose: 'bounce',
-        reaction: 'Side quest unlocked: new human.', score: 1,
-        summary: 'You can start meeting people without needing a long runway.'
-      },
-      {
-        id: 'trusted_person', label: 'Settle in with my person', icon: '🤝', gif: 'approval', pose: 'nod',
-        reaction: 'Trusted-human mode activated.', score: 0,
-        summary: 'A familiar person makes a new room feel easier.'
-      },
-      {
-        id: 'warm_up', label: 'Warm up, then decide', icon: '👀', gif: 'sideEye', pose: 'inspect',
-        reaction: 'Vibe scan in progress.', score: -1,
-        summary: 'You prefer to read the room before choosing your lane.'
-      }
-    ]
-  },
-  {
-    id: 'free_day',
-    theme: 'teal',
-    icon: '☀️',
-    prompt: 'A completely free Saturday appears. You…',
-    choices: [
-      {
-        id: 'plan_day', label: 'Plan the day out', icon: '🗓️', gif: 'slowClap', pose: 'nod',
-        reaction: 'The itinerary has entered the chat.', score: 1,
-        summary: 'A loose structure helps a free day feel satisfying.'
-      },
-      {
-        id: 'follow_vibes', label: 'See where it goes', icon: '🌊', gif: 'dance', pose: 'bounce',
-        reaction: 'Plot optional. Vibes essential.', score: -1,
-        summary: 'You enjoy leaving room for the day to surprise you.'
-      },
-      {
-        id: 'one_anchor', label: 'Choose one thing, then improvise', icon: '📍', gif: 'approval', pose: 'wiggle',
-        reaction: 'One anchor. Maximum freedom.', score: 0,
-        summary: 'One anchor is enough; the rest can stay flexible.'
-      }
-    ]
-  },
-  {
-    id: 'friend_bad_day',
-    theme: 'coral',
-    icon: '💬',
-    prompt: 'Someone you care about has a rough day. Your first instinct?',
-    choices: [
-      {
-        id: 'listen', label: 'Listen and comfort them', icon: '💛', gif: 'supportNod', pose: 'nod',
-        reaction: 'Emotional blanket deployed.',
-        summary: 'When someone is struggling, your instinct is to listen and comfort.'
-      },
-      {
-        id: 'solve', label: 'Help solve the problem', icon: '🧰', gif: 'problemSolved', pose: 'inspect',
-        reaction: 'Tiny toolbox: opened.',
-        summary: 'You often show care by helping make the problem lighter.'
-      },
-      {
-        id: 'ask_need', label: 'Ask what they need', icon: '🎛️', gif: 'supportNod', pose: 'nod',
-        reaction: 'Support settings: customized.',
-        summary: 'You prefer to ask before deciding what kind of support will help.'
-      }
-    ]
-  },
-  {
-    id: 'menu_novelty',
-    theme: 'orange',
-    icon: '🍜',
-    prompt: 'The menu has your favorite and one strange new dish. You…',
-    choices: [
-      {
-        id: 'try_new', label: 'Try the strange one', icon: '🥢', gif: 'surprised', pose: 'bounce',
-        reaction: 'Taste-bud side quest accepted.', score: 1,
-        summary: 'Novelty can win even when a safe favorite is available.'
-      },
-      {
-        id: 'choose_favorite', label: 'Choose the favorite', icon: '🍝', gif: 'celebration', pose: 'nod',
-        reaction: 'A classic never misses.', score: -1,
-        summary: 'A proven favorite is valuable because you already know it delivers.'
-      },
-      {
-        id: 'taste_first', label: 'Try one bite first', icon: '🥄', gif: 'sideEye', pose: 'inspect',
-        reaction: 'Risk level: exactly one bite.', score: 0,
-        summary: 'You like novelty with a small, sensible test run.'
-      }
-    ]
-  },
-  {
-    id: 'surprise_planning',
-    theme: 'blue',
-    icon: '🎁',
-    prompt: 'A surprise is being planned for you. Best version?',
-    choices: [
-      {
-        id: 'no_spoilers', label: 'Tell me nothing', icon: '🙈', gif: 'ohMyGod', pose: 'bounce',
-        reaction: 'Maximum mystery selected.',
-        summary: 'A surprise is most fun when the mystery stays intact.'
-      },
-      {
-        id: 'one_clue', label: 'Give me one clue', icon: '🔎', gif: 'blinking', pose: 'inspect',
-        reaction: 'One clue. Sanity preserved.',
-        summary: 'One clue gives you enough context without ruining the surprise.'
-      },
-      {
-        id: 'help_plan', label: 'Let me help plan', icon: '🧭', gif: 'slowClap', pose: 'nod',
-        reaction: 'Co-pilot privileges granted.',
-        summary: 'Being included in the plan helps the experience feel right.'
-      }
-    ]
-  },
-  {
-    id: 'raccoon_snack',
-    theme: 'gold',
-    icon: '🦝',
-    silly: true,
-    prompt: 'A raccoon steals your snack and maintains eye contact. You…',
-    choices: [
-      {
-        id: 'negotiate', label: 'Negotiate for half', icon: '🤝', gif: 'sideEye', pose: 'inspect',
-        reaction: 'Alley diplomacy begins.'
-      },
-      {
-        id: 'formal_trial', label: 'Demand a formal trial', icon: '⚖️', gif: 'angryMonkey', pose: 'wiggle',
-        reaction: 'Snack court is now in session.'
-      },
-      {
-        id: 'accept_management', label: 'Accept the new management', icon: '👔', gif: 'awkward', pose: 'nod',
-        reaction: 'Peaceful transfer of snacks.'
-      }
-    ]
-  },
-  {
-    id: 'recovery_style',
-    theme: 'green',
-    icon: '🔋',
-    prompt: 'After a packed week, what restores you fastest?',
-    choices: [
-      {
-        id: 'favorite_people', label: 'Time with favorite people', icon: '🎉', gif: 'dance', pose: 'bounce',
-        reaction: 'People-powered battery.', score: 1,
-        summary: 'Favorite people can help refill your energy.'
-      },
-      {
-        id: 'quiet_alone', label: 'Quiet time alone', icon: '🛋️', gif: 'approval', pose: 'freeze',
-        reaction: 'Recovery cave activated.', score: -1,
-        summary: 'Quiet time alone is your fastest reset after a full week.'
-      },
-      {
-        id: 'both', label: 'A little of both', icon: '🔋', gif: 'celebration', pose: 'wiggle',
-        reaction: 'Hybrid charging enabled.', score: 0,
-        summary: 'You recharge best with a careful mix of people and peace.'
-      }
-    ]
-  },
-  {
-    id: 'plan_breaks',
-    theme: 'blue',
-    icon: '🗺️',
-    prompt: 'Your plan falls apart at the last minute. You usually…',
-    choices: [
-      {
-        id: 'replan', label: 'Make a new plan', icon: '🗺️', gif: 'problemSolved', pose: 'inspect',
-        reaction: 'Backup map deployed.', score: 1,
-        summary: 'When plans break, rebuilding a clear route helps.'
-      },
-      {
-        id: 'improvise', label: 'Improvise from there', icon: '🎷', gif: 'dance', pose: 'bounce',
-        reaction: 'Jazz mode activated.', score: -1,
-        summary: 'When plans break, you can turn the detour into the plan.'
-      },
-      {
-        id: 'pause_then_choose', label: 'Take a beat, then choose', icon: '⏸️', gif: 'blinking', pose: 'freeze',
-        reaction: 'Strategic buffering…', score: 0,
-        summary: 'A short reset helps you adapt without rushing.'
-      }
-    ]
-  },
-  {
-    id: 'own_bad_day',
-    theme: 'coral',
-    icon: '🌧️',
-    prompt: 'You are having a hard day. What helps most?',
-    choices: [
-      {
-        id: 'talk_it_through', label: 'Talk it through', icon: '💬', gif: 'supportNod', pose: 'nod',
-        reaction: 'Words are doing the lifting.',
-        summary: 'On a hard day, talking helps you process what happened.'
-      },
-      {
-        id: 'space_first', label: 'Have space first', icon: '🌙', gif: 'sideEye', pose: 'freeze',
-        reaction: 'Space bubble protected.',
-        summary: 'On a hard day, space first gives you room to reset.'
-      },
-      {
-        id: 'quiet_company', label: 'Quiet company, no fixing', icon: '☕', gif: 'supportNod', pose: 'nod',
-        reaction: 'Silent teammate unlocked.',
-        summary: 'On a hard day, steady company can matter more than advice.'
-      }
-    ]
-  },
-  {
-    id: 'mystery_activity',
-    theme: 'violet',
-    icon: '🎭',
-    prompt: 'A trusted friend suggests a mystery activity. You…',
-    choices: [
-      {
-        id: 'no_details', label: 'I’m in—no details', icon: '🎭', gif: 'ohMyGod', pose: 'bounce',
-        reaction: 'Mystery mode: engaged.', score: 1,
-        summary: 'With someone you trust, you can enjoy going in without details.'
-      },
-      {
-        id: 'need_basics', label: 'Give me the basics', icon: '🧾', gif: 'blinking', pose: 'inspect',
-        reaction: 'Context first. Then chaos.', score: 0,
-        summary: 'A few useful basics make something new much easier to enjoy.'
-      },
-      {
-        id: 'depends_day', label: 'Depends on the day', icon: '🌤️', gif: 'sideEye', pose: 'wiggle',
-        reaction: 'Today’s vibe gets a vote.', score: -1,
-        summary: 'Your appetite for novelty depends on your energy and the moment.'
-      }
-    ]
-  },
-  {
-    id: 'talking_fridge',
-    theme: 'teal',
-    icon: '🧊',
-    silly: true,
-    prompt: 'Your refrigerator starts giving life advice. You…',
-    choices: [
-      {
-        id: 'hear_out', label: 'Hear it out', icon: '👂', gif: 'blinking', pose: 'inspect',
-        reaction: 'Cold wisdom detected.'
-      },
-      {
-        id: 'unplug', label: 'Unplug the philosopher', icon: '🔌', gif: 'facepalm', pose: 'wiggle',
-        reaction: 'Boundary: established.'
-      },
-      {
-        id: 'ask_lottery', label: 'Ask for lottery numbers', icon: '🔮', gif: 'mindBlown', pose: 'bounce',
-        reaction: 'Finally, the important question.'
-      }
-    ]
-  },
-  {
-    id: 'celebration_style',
-    theme: 'gold',
-    icon: '🎉',
-    prompt: 'Someone wants to celebrate you. What lands best?',
-    choices: [
-      {
-        id: 'little_fuss', label: 'Make a little fuss', icon: '🎉', gif: 'celebration', pose: 'celebrate',
-        reaction: 'Tiny confetti cannon!',
-        summary: 'A warm little celebration makes the moment feel real.'
-      },
-      {
-        id: 'private_words', label: 'Say it privately', icon: '💌', gif: 'approval', pose: 'nod',
-        reaction: 'Private words. Big impact.',
-        summary: 'Private, thoughtful words can mean more than a public fuss.'
-      },
-      {
-        id: 'simple_time', label: 'Spend simple time together', icon: '🫖', gif: 'supportNod', pose: 'wiggle',
-        reaction: 'Presence says plenty.',
-        summary: 'Simple time together is a celebration all by itself.'
-      }
-    ]
-  }
-];
+validatePersonalityData();
 
 const questionById = new Map(questions.map((question) => [question.id, question]));
 const screens = [...document.querySelectorAll('.screen')];
@@ -355,10 +29,21 @@ const choiceGrid = document.querySelector('#choiceGrid');
 const reactionEyebrow = document.querySelector('#reactionEyebrow');
 const reactionTitle = document.querySelector('#reactionTitle');
 const reactionGifFrame = document.querySelector('#reactionGifFrame');
+const reactionFallback = document.querySelector('#reactionFallback');
+const reactionFallbackEmoji = document.querySelector('#reactionFallbackEmoji');
 const reactionGif = document.querySelector('#reactionGif');
 const gifCredit = document.querySelector('#gifCredit');
 const reactionTimerBar = document.querySelector('#reactionTimerBar');
-const fakeResultTitle = document.querySelector('#fakeResultTitle');
+const countdownNumber = document.querySelector('#countdownNumber');
+const prankGifFrame = document.querySelector('#prankGifFrame');
+const prankFallback = document.querySelector('#prankFallback');
+const prankGifElement = document.querySelector('#prankGif');
+const missionPreviewCard = document.querySelector('#missionPreviewCard');
+const missionPreviewIcon = document.querySelector('#missionPreviewIcon');
+const missionPreviewLabel = document.querySelector('#missionPreviewLabel');
+const missionPreviewText = document.querySelector('#missionPreviewText');
+const missionBuildDots = [...document.querySelectorAll('[data-mission-dot]')];
+const missionArchetype = document.querySelector('#missionArchetype');
 const blueprintGrid = document.querySelector('#blueprintGrid');
 const absurdNotes = document.querySelector('#absurdNotes');
 const finalChoiceGrid = document.querySelector('#finalChoiceGrid');
@@ -375,9 +60,11 @@ let currentQuestion = 0;
 let answerLocked = false;
 let finalLocked = false;
 let answers = {};
+let currentProfile;
 let timers = new Set();
 let poseTimer;
-let reactionToken = 0;
+let gifLoadToken = 0;
+let usedGifIds = new Set();
 
 document.querySelector('#startButton').addEventListener('click', startGame);
 document.querySelector('#replayButton').addEventListener('click', replayGame);
@@ -392,15 +79,21 @@ function schedule(callback, delay) {
   return timer;
 }
 
+function stopGif(frame, iframe, fallback) {
+  iframe.onload = null;
+  iframe.src = 'about:blank';
+  frame.classList.remove('is-loading', 'is-fallback');
+  frame.setAttribute('aria-busy', 'false');
+  fallback.setAttribute('aria-hidden', 'true');
+}
+
 function clearTimers() {
   timers.forEach((timer) => window.clearTimeout(timer));
   timers.clear();
   window.clearTimeout(poseTimer);
-  reactionToken += 1;
-  reactionGif.onload = null;
-  reactionGif.src = 'about:blank';
-  reactionGifFrame.classList.remove('is-loading');
-  reactionGifFrame.setAttribute('aria-busy', 'false');
+  gifLoadToken += 1;
+  stopGif(reactionGifFrame, reactionGif, reactionFallback);
+  stopGif(prankGifFrame, prankGifElement, prankFallback);
 }
 
 function showScreen(screenId, view, theme = document.body.dataset.theme) {
@@ -412,12 +105,8 @@ function showScreen(screenId, view, theme = document.body.dataset.theme) {
 
   const active = document.querySelector(`#${screenId}`);
   const heading = active?.querySelector('h1, h2');
-  if (heading) {
-    requestAnimationFrame(() => heading.focus({ preventScroll: true }));
-  }
-  if (screenId !== 'resultScreen') {
-    window.scrollTo({ top: 0, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
-  }
+  if (heading) requestAnimationFrame(() => heading.focus({ preventScroll: true }));
+  window.scrollTo({ top: 0, behavior: reducedMotion.matches ? 'auto' : 'smooth' });
 }
 
 function setMascotPose(pose, duration = 1450) {
@@ -430,13 +119,58 @@ function setMascotPose(pose, duration = 1450) {
   }, duration);
 }
 
+function loadGif({ frame, iframe, fallback, source, title, fallbackEmoji, onReady }) {
+  const token = ++gifLoadToken;
+  let gifLoaded = false;
+  let readyNotified = false;
+  let fallbackTimer;
+
+  frame.classList.remove('is-fallback');
+  frame.classList.add('is-loading');
+  frame.setAttribute('aria-busy', 'true');
+  fallback.setAttribute('aria-hidden', 'true');
+  const emoji = fallback.querySelector('span');
+  if (emoji) emoji.textContent = fallbackEmoji;
+  iframe.title = title;
+
+  const notifyReady = () => {
+    if (readyNotified) return;
+    readyNotified = true;
+    onReady();
+  };
+
+  iframe.onload = () => {
+    if (token !== gifLoadToken) return;
+    gifLoaded = true;
+    window.clearTimeout(fallbackTimer);
+    timers.delete(fallbackTimer);
+    frame.classList.remove('is-loading', 'is-fallback');
+    frame.setAttribute('aria-busy', 'false');
+    fallback.setAttribute('aria-hidden', 'true');
+    notifyReady();
+  };
+
+  iframe.src = source;
+  fallbackTimer = schedule(() => {
+    if (token !== gifLoadToken || gifLoaded) return;
+    frame.classList.remove('is-loading');
+    frame.classList.add('is-fallback');
+    frame.setAttribute('aria-busy', 'false');
+    fallback.setAttribute('aria-hidden', 'false');
+    notifyReady();
+  }, GIF_LOAD_TIMEOUT_MS);
+}
+
 function startGame() {
   clearTimers();
   currentQuestion = 0;
   answerLocked = false;
   finalLocked = false;
   answers = {};
+  currentProfile = undefined;
+  usedGifIds = new Set();
   collectedIcons.replaceChildren();
+  confetti.replaceChildren();
   mascotProp.textContent = '🧠';
   personalityTelemetry.beginRun();
   renderQuestion();
@@ -452,14 +186,18 @@ function renderQuestion() {
   answerLocked = false;
   progressHeader.hidden = false;
   progressLabel.textContent = `Question ${currentQuestion + 1} of ${questions.length}`;
-  progressStatus.textContent = question.silly ? 'Critical nonsense' : currentQuestion < 6 ? 'Instinct check' : 'Raccoon audit';
+  progressStatus.textContent = question.silly
+    ? 'Important nonsense'
+    : currentQuestion < 6 ? 'Quick choice' : 'Almost there';
   progressTrack.setAttribute('aria-valuenow', String(currentQuestion + 1));
   progressBar.style.width = `${((currentQuestion + 1) / questions.length) * 100}%`;
-  questionEyebrow.textContent = question.silly ? 'Important legal question' : `Instinct choice ${currentQuestion + 1}`;
+  questionEyebrow.textContent = question.silly
+    ? 'Very important question'
+    : `Question ${currentQuestion + 1}`;
   questionTitle.textContent = question.prompt;
   questionHint.textContent = question.silly
-    ? 'The legal department insisted we ask.'
-    : 'Go with your first honest answer.';
+    ? 'This is definitely important. Probably.'
+    : 'Choose the answer that feels most like you.';
   mascotProp.textContent = question.icon;
   choiceGrid.replaceChildren();
 
@@ -508,92 +246,142 @@ function addCollectedIcon(icon) {
 }
 
 function showReaction(question, choice) {
-  const gif = memeGifs[choice.gif];
-  const token = ++reactionToken;
+  const asset = reactionAssets[choice.gif];
   let countdownStarted = false;
-  let fallbackTimer;
-  reactionEyebrow.textContent = question.silly ? 'Peer-reviewed nonsense' : 'Extremely serious observation';
+
+  reactionEyebrow.textContent = question.silly ? 'Important reaction' : 'Your answer says';
   reactionTitle.textContent = choice.reaction;
-  reactionGif.title = `${choice.reaction} reaction GIF`;
-  gifCredit.href = gif.page;
+  reactionFallbackEmoji.textContent = asset.fallbackEmoji;
+  gifCredit.href = asset.page;
   mascotProp.textContent = choice.icon;
-  reactionGifFrame.classList.add('is-loading');
-  reactionGifFrame.setAttribute('aria-busy', 'true');
+  reactionTimerBar.classList.remove('running');
   showScreen('reactionScreen', 'reaction', question.theme);
 
-  reactionTimerBar.classList.remove('running');
-
   const beginCountdown = () => {
-    if (countdownStarted || token !== reactionToken) return;
+    if (countdownStarted) return;
     countdownStarted = true;
-    reactionGif.onload = null;
-    window.clearTimeout(fallbackTimer);
-    timers.delete(fallbackTimer);
-    reactionGifFrame.classList.remove('is-loading');
-    reactionGifFrame.setAttribute('aria-busy', 'false');
     void reactionTimerBar.offsetWidth;
     reactionTimerBar.classList.add('running');
-
-    schedule(() => {
-      reactionGif.src = 'about:blank';
-      if (currentQuestion === questions.length - 1) {
-        beginAnalysis();
-        return;
-      }
-      currentQuestion += 1;
-      renderQuestion();
-    }, REACTION_MS);
+    schedule(advanceAfterReaction, REACTION_MS);
   };
 
-  reactionGif.onload = beginCountdown;
-  reactionGif.src = `https://giphy.com/embed/${gif.id}`;
-  fallbackTimer = schedule(beginCountdown, GIF_LOAD_TIMEOUT_MS);
+  if (usedGifIds.has(asset.id)) {
+    reactionGifFrame.classList.remove('is-loading');
+    reactionGifFrame.classList.add('is-fallback');
+    reactionFallback.setAttribute('aria-hidden', 'false');
+    reactionGif.src = 'about:blank';
+    schedule(beginCountdown, 120);
+    return;
+  }
+
+  usedGifIds.add(asset.id);
+  loadGif({
+    frame: reactionGifFrame,
+    iframe: reactionGif,
+    fallback: reactionFallback,
+    source: `https://giphy.com/embed/${asset.id}`,
+    title: `${asset.alt}. ${choice.reaction}`,
+    fallbackEmoji: asset.fallbackEmoji,
+    onReady: beginCountdown
+  });
+}
+
+function advanceAfterReaction() {
+  gifLoadToken += 1;
+  stopGif(reactionGifFrame, reactionGif, reactionFallback);
+  if (currentQuestion === questions.length - 1) {
+    beginAnalysis();
+    return;
+  }
+  currentQuestion += 1;
+  renderQuestion();
 }
 
 function beginAnalysis() {
   progressHeader.hidden = true;
   mascotProp.textContent = '🧪';
   setMascotPose('inspect', 3200);
+  currentProfile = buildProfile();
+  personalityTelemetry.recordProfile(currentProfile.codes);
   showScreen('analysisScreen', 'analysis', 'violet');
-
-  const profile = buildProfile().codes;
-  personalityTelemetry.recordProfile(profile);
 
   const analysisSteps = [...document.querySelectorAll('[data-analysis-step]')];
   analysisSteps.forEach((step) => step.classList.remove('done'));
   analysisSteps.forEach((step, index) => {
-    schedule(() => step.classList.add('done'), 450 + index * 720);
+    schedule(() => step.classList.add('done'), 300 + index * 520);
   });
-  schedule(showFakeResult, 3100);
+  schedule(showCountdown, 2200);
 }
 
-function showFakeResult() {
-  mascotProp.textContent = '📜';
-  fakeResultTitle.textContent = buildFakeTitle();
-  setMascotPose('nod', 2100);
-  showScreen('fakeResultScreen', 'fake-result', 'gold');
-  schedule(showTwist, 2650);
+function setCountdown(value) {
+  countdownNumber.textContent = value;
+  countdownNumber.style.animation = 'none';
+  void countdownNumber.offsetWidth;
+  countdownNumber.style.animation = '';
 }
 
-function buildFakeTitle() {
-  const prefix = {
-    plan_day: 'The Prepared',
-    follow_vibes: 'The Spontaneous',
-    one_anchor: 'The Strategically Flexible'
-  }[answers.free_day] ?? 'The Thoughtful';
-  const title = {
-    try_new: 'Side-Quest Goblin',
-    choose_favorite: 'Comfort Connoisseur',
-    taste_first: 'Cautious Taste Tester'
-  }[answers.menu_novelty] ?? 'Vibe Analyst';
-  return `${prefix} ${title}`;
+function showCountdown() {
+  mascotProp.textContent = '🎁';
+  setMascotPose('bounce', 2500);
+  setCountdown('3');
+  showScreen('countdownScreen', 'countdown', 'gold');
+  schedule(() => setCountdown('2'), 800);
+  schedule(() => setCountdown('1'), 1600);
+  schedule(showPrank, 2400);
 }
 
-function showTwist() {
-  mascotProp.textContent = '📄';
-  setMascotPose('steal', 1950);
-  showScreen('twistScreen', 'twist', 'coral');
-  schedule(showRealResult, 2350);
+function showPrank() {
+  mascotProp.textContent = '😏';
+  setMascotPose('wiggle', 2500);
+  showScreen('prankScreen', 'prank', 'coral');
+  loadGif({
+    frame: prankGifFrame,
+    iframe: prankGifElement,
+    fallback: prankFallback,
+    source: `https://giphy.com/embed/${prankGif.id}`,
+    title: prankGif.alt,
+    fallbackEmoji: prankGif.fallbackEmoji,
+    onReady: () => schedule(showRescue, 2200)
+  });
+}
+
+function showRescue() {
+  gifLoadToken += 1;
+  stopGif(prankGifFrame, prankGifElement, prankFallback);
+  mascotProp.textContent = '⚠️';
+  setMascotPose('freeze', 1800);
+  showScreen('rescueScreen', 'rescue', 'coral');
+  schedule(showRealTwist, 1700);
+}
+
+function showRealTwist() {
+  mascotProp.textContent = '🗂️';
+  setMascotPose('inspect', 2900);
+  showScreen('realTwistScreen', 'real-twist', 'violet');
+  schedule(showMissionBuild, 2800);
+}
+
+function showMissionBuild() {
+  mascotProp.textContent = '🔐';
+  setMascotPose('nod', 4400);
+  missionBuildDots.forEach((dot) => dot.classList.remove('active'));
+  showScreen('missionBuildScreen', 'mission-build', 'blue');
+  currentProfile.trailer.forEach((step, index) => {
+    schedule(() => renderMissionStep(step, index), index * 1400);
+  });
+  schedule(showRealResult, currentProfile.trailer.length * 1400 + 500);
+}
+
+function renderMissionStep(step, index) {
+  missionPreviewCard.classList.remove('changing');
+  void missionPreviewCard.offsetWidth;
+  missionPreviewCard.classList.add('changing');
+  missionPreviewIcon.textContent = step.icon;
+  missionPreviewLabel.textContent = step.label;
+  missionPreviewText.textContent = step.text;
+  missionBuildDots.forEach((dot, dotIndex) => {
+    dot.classList.toggle('active', dotIndex <= index);
+  });
 }
 
 function selectedChoice(questionId) {
@@ -603,6 +391,62 @@ function selectedChoice(questionId) {
 
 function scoreFor(questionId) {
   return selectedChoice(questionId)?.score ?? 0;
+}
+
+function missionTitleFor(planStyle, adventureSetting) {
+  const titles = {
+    structured: {
+      novelty_first: 'The Prepared Explorer',
+      comfort_first: 'The Comfort Architect',
+      context_first: 'The Thoughtful Planner'
+    },
+    improvised: {
+      novelty_first: 'The Spontaneous Explorer',
+      comfort_first: 'The Easygoing Favorite-Finder',
+      context_first: 'The In-the-Moment Detective'
+    },
+    adaptive: {
+      novelty_first: 'The Flexible Adventurer',
+      comfort_first: 'The Calm Choice-Maker',
+      context_first: 'The Curious Navigator'
+    }
+  };
+  return titles[planStyle][adventureSetting];
+}
+
+function buildTrailer(codes) {
+  const setting = {
+    people_powered: 'Good company belongs in the plan.',
+    close_circle: 'A familiar person makes a new place easier.',
+    quiet_recharger: 'Leave room for peace and a quiet reset.',
+    balanced: 'Mix good company with enough quiet space.'
+  }[codes.socialRhythm];
+  const adventure = {
+    novelty_first: 'Add something new.',
+    comfort_first: 'Keep one trusted favorite.',
+    context_first: 'Give the useful details first.'
+  }[codes.adventureSetting];
+  const pace = {
+    structured: 'Use a clear plan and keep a backup ready.',
+    improvised: 'Keep the schedule open and choose in the moment.',
+    adaptive: 'Choose one starting point, then stay flexible.'
+  }[codes.planStyle];
+  const surprise = {
+    full_mystery: 'Keep the details secret.',
+    one_clue: 'Give exactly one clue.',
+    co_created: 'Plan it together.'
+  }[codes.surpriseStyle];
+  const care = {
+    listener: 'If support is needed, listen first.',
+    problem_solver: 'If support is needed, practical help matters.',
+    ask_first: 'If support is needed, ask what would help.'
+  }[codes.careLanguage];
+
+  return [
+    { icon: '📍', label: 'The setting', text: `${setting} ${adventure}` },
+    { icon: '⏱️', label: 'The pace', text: pace },
+    { icon: '🔐', label: 'The secret rules', text: `${surprise} ${care}` }
+  ];
 }
 
 function buildProfile() {
@@ -629,41 +473,45 @@ function buildProfile() {
     one_clue: 'one_clue',
     help_plan: 'co_created'
   }[answers.surprise_planning];
+  const codes = { socialRhythm, planStyle, adventureSetting, careLanguage, surpriseStyle };
 
   return {
-    codes: { socialRhythm, planStyle, adventureSetting, careLanguage, surpriseStyle },
+    codes,
+    title: missionTitleFor(planStyle, adventureSetting),
+    trailer: buildTrailer(codes),
     cards: [
       {
-        label: 'Social rhythm', icon: '🔋',
+        label: 'People and energy', icon: '🔋',
         text: `${selectedChoice('unknown_gathering').summary} ${selectedChoice('recovery_style').summary}`
       },
       {
-        label: 'Plan style', icon: '🗺️',
+        label: 'Plan and pace', icon: '🗺️',
         text: `${selectedChoice('free_day').summary} ${selectedChoice('plan_breaks').summary}`
       },
       {
-        label: 'Adventure setting', icon: '🎭',
+        label: 'New experiences', icon: '🎭',
         text: `${selectedChoice('menu_novelty').summary} ${selectedChoice('mystery_activity').summary}`
       },
       {
-        label: 'Care language', icon: '💛',
+        label: 'Support rules', icon: '💛',
         text: `${selectedChoice('friend_bad_day').summary} ${selectedChoice('own_bad_day').summary}`
       },
       {
-        label: 'Surprise style', icon: '🎁',
+        label: 'Surprises and celebration', icon: '🎁',
         text: `${selectedChoice('surprise_planning').summary} ${selectedChoice('celebration_style').summary}`
       }
     ],
     extras: [
-      `Raccoon policy: ${selectedChoice('raccoon_snack').label.toLowerCase()}`,
-      `Refrigerator protocol: ${selectedChoice('talking_fridge').label.toLowerCase()}`
+      `Raccoon rule: ${selectedChoice('raccoon_snack').label.toLowerCase()}.`,
+      `Talking-fridge rule: ${selectedChoice('talking_fridge').label.toLowerCase()}.`
     ]
   };
 }
 
 function showRealResult() {
-  const profile = buildProfile();
+  const profile = currentProfile ?? buildProfile();
   blueprintGrid.replaceChildren();
+  missionArchetype.textContent = profile.title;
 
   profile.cards.forEach((card, index) => {
     const article = document.createElement('article');
@@ -716,28 +564,28 @@ function handleFinalChoice(event) {
 function showEnding(response) {
   const endings = {
     use_settings: {
-      eyebrow: 'Blueprint accepted',
-      title: 'Settings saved! 🎉',
-      message: 'Mystery approved. The blueprint may now leave the screen.',
-      joke: 'The raccoon has entered planning mode. It has enthusiasm and absolutely no qualifications.',
+      eyebrow: 'Mission approved',
+      title: 'Mission accepted! ✨',
+      message: 'Your classified file can now become a real plan for a day that fits you.',
+      joke: 'The raccoon has requested a clipboard. This feels unnecessarily official.',
       theme: 'gold',
-      prop: '🎉',
+      prop: '📋',
       confetti: true
     },
     show_idea: {
       eyebrow: 'Preview requested',
-      title: 'One clue first 🔎',
-      message: 'Perfect—mystery level lowered from 100% to comfortably suspicious.',
-      joke: 'The raccoon is preparing a presentation with one slide and too many transitions.',
+      title: 'Preview unlocked 🔎',
+      message: 'Useful details first, surprise second. That is a very reasonable mission rule.',
+      joke: 'The raccoon is preparing exactly one clue and trying very hard not to spoil it.',
       theme: 'blue',
       prop: '🔎',
       confetti: true
     },
     not_now: {
-      eyebrow: 'Answer respected',
-      title: 'Not right now 🙂',
-      message: 'Absolutely fair. The blueprint stays safely on the page with no pressure attached.',
-      joke: 'The raccoon has filed it under “maybe someday” and returned the snacks.',
+      eyebrow: 'Mission saved',
+      title: 'Saved for later 🙂',
+      message: 'No pressure. Your classified file will stay safely here for another day.',
+      joke: 'The raccoon put it in the secure drawer beside the snacks.',
       theme: 'green',
       prop: '🗂️',
       confetti: false
