@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="A tiny sky experiment for one curious person">
+  <meta name="theme-color" content="#050816">
+  <meta property="og:title" content="A Tiny Sky Experiment">
+  <meta property="og:description" content="This page is missing one curious person.">
+  <meta property="og:type" content="website">
+  <title>A Tiny Sky Experiment</title>
+  <link rel="stylesheet" href="constellation.css">
+</head>
+<body>
+  <div class="cosmic-background" aria-hidden="true">
+    <span></span><span></span><span></span>
+  </div>
+  <canvas id="skyCanvas" role="img" aria-label="A quiet field of stars waiting for a constellation."></canvas>
+
+  <main class="experience" id="experience" data-phase="intro">
+    <header class="top-bar">
+      <span class="tiny-mark" aria-label="One-time sky">ONE-TIME SKY</span>
+      <button class="sound-toggle" id="soundToggle" type="button" aria-pressed="false">
+        <span aria-hidden="true">♪</span>
+        <span id="soundLabel">Sound off</span>
+      </button>
+    </header>
+
+    <section class="scene intro-scene is-active" id="introScene" aria-labelledby="introTitle">
+      <div class="intro-orbit" aria-hidden="true">
+        <span></span><span></span><span></span>
+        <i></i>
+      </div>
+      <p class="eyebrow">For one curious person</p>
+      <h1 id="introTitle" tabindex="-1">This page is missing something.</h1>
+      <p class="lead">It only works when you’re here.</p>
+      <button class="button primary-button" id="beginButton" type="button">
+        See what happens <span aria-hidden="true">✦</span>
+      </button>
+      <p class="privacy-note">About a minute. Your taps and chosen name are not uploaded.</p>
+    </section>
+
+    <section class="scene creation-scene" id="creationScene" aria-labelledby="creationTitle" hidden>
+      <div
+        class="touch-surface"
+        id="touchSurface"
+        role="button"
+        tabindex="0"
+        aria-label="Place star 1 of 7"
+        aria-describedby="creationHint"
+      ></div>
+
+      <div class="creation-copy">
+        <div class="star-progress" id="starProgress" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+        <p class="eyebrow"><span id="starCount">0</span> of 7 stars awake</p>
+        <h2 id="creationTitle" tabindex="-1">Tap anywhere to place the first star.</h2>
+        <p class="creation-hint" id="creationHint">On a keyboard, press Space or Enter.</p>
+      </div>
+    </section>
+
+    <section class="scene naming-scene" id="namingScene" aria-labelledby="namingTitle" hidden>
+      <div class="glass-card naming-card">
+        <p class="eyebrow">A new pattern appeared</p>
+        <h2 id="namingTitle" tabindex="-1">Well. That didn’t exist a minute ago.</h2>
+        <p class="lead">Every constellation needs a name.</p>
+
+        <form class="name-form" id="nameForm" novalidate>
+          <label for="constellationName">Name your constellation</label>
+          <div class="name-row">
+            <input
+              id="constellationName"
+              name="constellationName"
+              type="text"
+              maxlength="24"
+              placeholder="Something unnecessarily dramatic"
+              autocomplete="off"
+              enterkeyhint="done"
+            >
+            <button class="button surprise-button" id="surpriseNameButton" type="button">Surprise me</button>
+          </div>
+          <p class="field-message" id="fieldMessage" aria-live="polite"></p>
+          <button class="button primary-button name-button" type="submit">Name it <span aria-hidden="true">✦</span></button>
+        </form>
+      </div>
+    </section>
+
+    <section class="scene reveal-scene" id="revealScene" aria-labelledby="revealTitle" hidden>
+      <div class="discovery-record">
+        <div class="record-topline">
+          <span>Discovery record</span>
+          <span id="skyCode">SKY–000000</span>
+        </div>
+        <h2 id="revealTitle" tabindex="-1">The Quiet Comet</h2>
+        <p><span>Seven stars</span><span aria-hidden="true">·</span><span id="discoveryDate"></span></p>
+        <small>Discovered by one curious person</small>
+      </div>
+
+      <p class="final-message">The internet is slightly less ordinary because you showed up.</p>
+
+      <div class="final-actions">
+        <button class="button primary-button" id="saveButton" type="button">Save or share card</button>
+        <button class="button quiet-button" id="copyButton" type="button">Copy its name</button>
+      </div>
+
+      <p class="reply-hook">If you feel like replying, send me its name. That’s the whole secret.</p>
+    </section>
+  </main>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <div class="sr-only" id="announcer" aria-live="polite"></div>
+  <script type="module" src="constellation.js"></script>
+</body>
+</html>
