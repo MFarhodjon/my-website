@@ -253,13 +253,13 @@ service cloud.firestore {
         ])
         && data.ownerUid is string
         && data.schemaVersion == 1
-        && data.gameVersion in ["instinct-surprise-v1", "instinct-surprise-v2"]
+        && data.gameVersion in ["instinct-surprise-v1", "instinct-surprise-v2", "instinct-surprise-v3"]
         && data.startedAt is timestamp
         && data.updatedAt is timestamp
         && (data.completedAt == null || data.completedAt is timestamp)
         && validPersonalityAnswers(data.answers)
         && validPersonalityProfile(data.profile)
-        && (data.finalResponse == null || data.finalResponse in ["use_settings", "show_idea", "not_now"]);
+        && (data.finalResponse == null || data.finalResponse in ["use_settings", "show_idea", "not_now", "ending_seen"]);
     }
 
     function validPersonalityCreate(data) {
@@ -313,7 +313,7 @@ service cloud.firestore {
         && newData.answers == oldData.answers
         && newData.profile == oldData.profile
         && oldData.finalResponse == null
-        && newData.finalResponse in ["use_settings", "show_idea", "not_now"]
+        && newData.finalResponse in ["use_settings", "show_idea", "not_now", "ending_seen"]
         && oldData.completedAt == null
         && newData.completedAt == request.time;
     }

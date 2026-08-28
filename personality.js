@@ -1,5 +1,6 @@
 import { personalityTelemetry } from './personality-tracker.js';
 import {
+  endingGif,
   prankGif,
   questions,
   reactionAssets,
@@ -38,19 +39,10 @@ const countdownNumber = document.querySelector('#countdownNumber');
 const prankGifFrame = document.querySelector('#prankGifFrame');
 const prankFallback = document.querySelector('#prankFallback');
 const prankGifElement = document.querySelector('#prankGif');
-const missionPreviewCard = document.querySelector('#missionPreviewCard');
-const missionPreviewIcon = document.querySelector('#missionPreviewIcon');
-const missionPreviewLabel = document.querySelector('#missionPreviewLabel');
-const missionPreviewText = document.querySelector('#missionPreviewText');
-const missionBuildDots = [...document.querySelectorAll('[data-mission-dot]')];
-const missionArchetype = document.querySelector('#missionArchetype');
-const blueprintGrid = document.querySelector('#blueprintGrid');
-const absurdNotes = document.querySelector('#absurdNotes');
-const finalChoiceGrid = document.querySelector('#finalChoiceGrid');
-const endingEyebrow = document.querySelector('#endingEyebrow');
-const endingTitle = document.querySelector('#endingTitle');
-const endingMessage = document.querySelector('#endingMessage');
-const endingJoke = document.querySelector('#endingJoke');
+const endingGifFrame = document.querySelector('#endingGifFrame');
+const endingFallback = document.querySelector('#endingFallback');
+const endingGifElement = document.querySelector('#endingGif');
+const endingGifCredit = document.querySelector('#endingGifCredit');
 const confetti = document.querySelector('#confetti');
 const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -58,9 +50,7 @@ reactionTimerBar.style.setProperty('--reaction-duration', `${REACTION_MS}ms`);
 
 let currentQuestion = 0;
 let answerLocked = false;
-let finalLocked = false;
 let answers = {};
-let currentProfile;
 let timers = new Set();
 let poseTimer;
 let gifLoadToken = 0;
@@ -68,7 +58,6 @@ let usedGifIds = new Set();
 
 document.querySelector('#startButton').addEventListener('click', startGame);
 document.querySelector('#replayButton').addEventListener('click', replayGame);
-finalChoiceGrid.addEventListener('click', handleFinalChoice);
 
 function schedule(callback, delay) {
   const timer = window.setTimeout(() => {
@@ -94,6 +83,7 @@ function clearTimers() {
   gifLoadToken += 1;
   stopGif(reactionGifFrame, reactionGif, reactionFallback);
   stopGif(prankGifFrame, prankGifElement, prankFallback);
+  stopGif(endingGifFrame, endingGifElement, endingFallback);
 }
 
 function showScreen(screenId, view, theme = document.body.dataset.theme) {
@@ -165,9 +155,7 @@ function startGame() {
   clearTimers();
   currentQuestion = 0;
   answerLocked = false;
-  finalLocked = false;
   answers = {};
-  currentProfile = undefined;
   usedGifIds = new Set();
   collectedIcons.replaceChildren();
   confetti.replaceChildren();
@@ -301,8 +289,7 @@ function beginAnalysis() {
   progressHeader.hidden = true;
   mascotProp.textContent = '🧪';
   setMascotPose('inspect', 3200);
-  currentProfile = buildProfile();
-  personalityTelemetry.recordProfile(currentProfile.codes);
+  personalityTelemetry.recordProfile(buildProfile());
   showScreen('analysisScreen', 'analysis', 'violet');
 
   const analysisSteps = [...document.querySelectorAll('[data-analysis-step]')];
@@ -341,47 +328,17 @@ function showPrank() {
     source: `https://giphy.com/embed/${prankGif.id}`,
     title: prankGif.alt,
     fallbackEmoji: prankGif.fallbackEmoji,
-    onReady: () => schedule(showRescue, 2200)
+    onReady: () => schedule(showTruth, 2200)
   });
 }
 
-function showRescue() {
+function showTruth() {
   gifLoadToken += 1;
   stopGif(prankGifFrame, prankGifElement, prankFallback);
-  mascotProp.textContent = '⚠️';
-  setMascotPose('freeze', 1800);
-  showScreen('rescueScreen', 'rescue', 'coral');
-  schedule(showRealTwist, 1700);
-}
-
-function showRealTwist() {
-  mascotProp.textContent = '🗂️';
-  setMascotPose('inspect', 2900);
-  showScreen('realTwistScreen', 'real-twist', 'violet');
-  schedule(showMissionBuild, 2800);
-}
-
-function showMissionBuild() {
-  mascotProp.textContent = '🔐';
-  setMascotPose('nod', 4400);
-  missionBuildDots.forEach((dot) => dot.classList.remove('active'));
-  showScreen('missionBuildScreen', 'mission-build', 'blue');
-  currentProfile.trailer.forEach((step, index) => {
-    schedule(() => renderMissionStep(step, index), index * 1400);
-  });
-  schedule(showRealResult, currentProfile.trailer.length * 1400 + 500);
-}
-
-function renderMissionStep(step, index) {
-  missionPreviewCard.classList.remove('changing');
-  void missionPreviewCard.offsetWidth;
-  missionPreviewCard.classList.add('changing');
-  missionPreviewIcon.textContent = step.icon;
-  missionPreviewLabel.textContent = step.label;
-  missionPreviewText.textContent = step.text;
-  missionBuildDots.forEach((dot, dotIndex) => {
-    dot.classList.toggle('active', dotIndex <= index);
-  });
+  mascotProp.textContent = '💛';
+  setMascotPose('nod', 4200);
+  showScreen('truthScreen', 'truth', 'teal');
+  schedule(showEnding, 4200);
 }
 
 function selectedChoice(questionId) {
@@ -391,62 +348,6 @@ function selectedChoice(questionId) {
 
 function scoreFor(questionId) {
   return selectedChoice(questionId)?.score ?? 0;
-}
-
-function missionTitleFor(planStyle, adventureSetting) {
-  const titles = {
-    structured: {
-      novelty_first: 'The Prepared Explorer',
-      comfort_first: 'The Comfort Architect',
-      context_first: 'The Thoughtful Planner'
-    },
-    improvised: {
-      novelty_first: 'The Spontaneous Explorer',
-      comfort_first: 'The Easygoing Favorite-Finder',
-      context_first: 'The In-the-Moment Detective'
-    },
-    adaptive: {
-      novelty_first: 'The Flexible Adventurer',
-      comfort_first: 'The Calm Choice-Maker',
-      context_first: 'The Curious Navigator'
-    }
-  };
-  return titles[planStyle][adventureSetting];
-}
-
-function buildTrailer(codes) {
-  const setting = {
-    people_powered: 'Good company belongs in the plan.',
-    close_circle: 'A familiar person makes a new place easier.',
-    quiet_recharger: 'Leave room for peace and a quiet reset.',
-    balanced: 'Mix good company with enough quiet space.'
-  }[codes.socialRhythm];
-  const adventure = {
-    novelty_first: 'Add something new.',
-    comfort_first: 'Keep one trusted favorite.',
-    context_first: 'Give the useful details first.'
-  }[codes.adventureSetting];
-  const pace = {
-    structured: 'Use a clear plan and keep a backup ready.',
-    improvised: 'Keep the schedule open and choose in the moment.',
-    adaptive: 'Choose one starting point, then stay flexible.'
-  }[codes.planStyle];
-  const surprise = {
-    full_mystery: 'Keep the details secret.',
-    one_clue: 'Give exactly one clue.',
-    co_created: 'Plan it together.'
-  }[codes.surpriseStyle];
-  const care = {
-    listener: 'If support is needed, listen first.',
-    problem_solver: 'If support is needed, practical help matters.',
-    ask_first: 'If support is needed, ask what would help.'
-  }[codes.careLanguage];
-
-  return [
-    { icon: '📍', label: 'The setting', text: `${setting} ${adventure}` },
-    { icon: '⏱️', label: 'The pace', text: pace },
-    { icon: '🔐', label: 'The secret rules', text: `${surprise} ${care}` }
-  ];
 }
 
 function buildProfile() {
@@ -473,135 +374,25 @@ function buildProfile() {
     one_clue: 'one_clue',
     help_plan: 'co_created'
   }[answers.surprise_planning];
-  const codes = { socialRhythm, planStyle, adventureSetting, careLanguage, surpriseStyle };
-
-  return {
-    codes,
-    title: missionTitleFor(planStyle, adventureSetting),
-    trailer: buildTrailer(codes),
-    cards: [
-      {
-        label: 'People and energy', icon: '🔋',
-        text: `${selectedChoice('unknown_gathering').summary} ${selectedChoice('recovery_style').summary}`
-      },
-      {
-        label: 'Plan and pace', icon: '🗺️',
-        text: `${selectedChoice('free_day').summary} ${selectedChoice('plan_breaks').summary}`
-      },
-      {
-        label: 'New experiences', icon: '🎭',
-        text: `${selectedChoice('menu_novelty').summary} ${selectedChoice('mystery_activity').summary}`
-      },
-      {
-        label: 'Support rules', icon: '💛',
-        text: `${selectedChoice('friend_bad_day').summary} ${selectedChoice('own_bad_day').summary}`
-      },
-      {
-        label: 'Surprises and celebration', icon: '🎁',
-        text: `${selectedChoice('surprise_planning').summary} ${selectedChoice('celebration_style').summary}`
-      }
-    ],
-    extras: [
-      `Raccoon rule: ${selectedChoice('raccoon_snack').label.toLowerCase()}.`,
-      `Talking-fridge rule: ${selectedChoice('talking_fridge').label.toLowerCase()}.`
-    ]
-  };
+  return { socialRhythm, planStyle, adventureSetting, careLanguage, surpriseStyle };
 }
 
-function showRealResult() {
-  const profile = currentProfile ?? buildProfile();
-  blueprintGrid.replaceChildren();
-  missionArchetype.textContent = profile.title;
-
-  profile.cards.forEach((card, index) => {
-    const article = document.createElement('article');
-    article.className = 'blueprint-card';
-    article.style.setProperty('--card-index', String(index));
-
-    const heading = document.createElement('div');
-    heading.className = 'blueprint-heading';
-    const icon = document.createElement('span');
-    icon.setAttribute('aria-hidden', 'true');
-    icon.textContent = card.icon;
-    const label = document.createElement('strong');
-    label.textContent = card.label;
-    heading.append(icon, label);
-
-    const description = document.createElement('p');
-    description.textContent = card.text;
-    article.append(heading, description);
-    blueprintGrid.append(article);
-  });
-
-  absurdNotes.replaceChildren();
-  profile.extras.forEach((note) => {
-    const span = document.createElement('span');
-    span.textContent = note;
-    absurdNotes.append(span);
-  });
-
-  finalLocked = false;
-  [...finalChoiceGrid.querySelectorAll('button')].forEach((button) => {
-    button.disabled = false;
-  });
-  mascotProp.textContent = '🔓';
-  setMascotPose('inspect');
-  showScreen('resultScreen', 'result', 'teal');
-}
-
-function handleFinalChoice(event) {
-  const button = event.target.closest('[data-response]');
-  if (!button || finalLocked) return;
-  finalLocked = true;
-  const response = button.dataset.response;
-  [...finalChoiceGrid.querySelectorAll('button')].forEach((choiceButton) => {
-    choiceButton.disabled = true;
-  });
-  personalityTelemetry.completeRun(response);
-  showEnding(response);
-}
-
-function showEnding(response) {
-  const endings = {
-    use_settings: {
-      eyebrow: 'Mission approved',
-      title: 'Mission accepted! ✨',
-      message: 'Your classified file can now become a real plan for a day that fits you.',
-      joke: 'The raccoon has requested a clipboard. This feels unnecessarily official.',
-      theme: 'gold',
-      prop: '📋',
-      confetti: true
-    },
-    show_idea: {
-      eyebrow: 'Preview requested',
-      title: 'Preview unlocked 🔎',
-      message: 'Useful details first, surprise second. That is a very reasonable mission rule.',
-      joke: 'The raccoon is preparing exactly one clue and trying very hard not to spoil it.',
-      theme: 'blue',
-      prop: '🔎',
-      confetti: true
-    },
-    not_now: {
-      eyebrow: 'Mission saved',
-      title: 'Saved for later 🙂',
-      message: 'No pressure. Your classified file will stay safely here for another day.',
-      joke: 'The raccoon put it in the secure drawer beside the snacks.',
-      theme: 'green',
-      prop: '🗂️',
-      confetti: false
-    }
-  };
-
-  const ending = endings[response];
+function showEnding() {
   progressHeader.hidden = true;
-  endingEyebrow.textContent = ending.eyebrow;
-  endingTitle.textContent = ending.title;
-  endingMessage.textContent = ending.message;
-  endingJoke.textContent = ending.joke;
-  mascotProp.textContent = ending.prop;
-  setMascotPose(ending.confetti ? 'celebrate' : 'nod', 2600);
-  showScreen('endingScreen', 'ending', ending.theme);
-  if (ending.confetti) launchConfetti();
+  mascotProp.textContent = '🎉';
+  setMascotPose('celebrate', 3000);
+  endingGifCredit.href = endingGif.page;
+  showScreen('endingScreen', 'ending', 'gold');
+  personalityTelemetry.completeRun('ending_seen');
+  loadGif({
+    frame: endingGifFrame,
+    iframe: endingGifElement,
+    fallback: endingFallback,
+    source: `https://giphy.com/embed/${endingGif.id}`,
+    title: endingGif.alt,
+    fallbackEmoji: endingGif.fallbackEmoji,
+    onReady: launchConfetti
+  });
 }
 
 function launchConfetti() {

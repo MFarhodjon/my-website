@@ -224,6 +224,13 @@ export const prankGif = Object.freeze({
   fallbackEmoji: '😏'
 });
 
+export const endingGif = Object.freeze({
+  id: 'Dg4TxjYikCpiGd7tYs',
+  page: 'https://giphy.com/gifs/raccoon-pedro-Dg4TxjYikCpiGd7tYs',
+  alt: 'A happy raccoon dancing in a circle',
+  fallbackEmoji: '🦝'
+});
+
 export const questions = Object.freeze([
   {
     id: 'unknown_gathering', theme: 'violet', icon: '👋',
@@ -365,7 +372,10 @@ export function validatePersonalityData() {
   if (gifIds.length !== 36) errors.push(`Expected 36 assigned GIFs, found ${gifIds.length}.`);
   if (new Set(gifIds).size !== gifIds.length) errors.push('Every answer must use a globally unique GIF.');
   if (gifIds.includes(prankGif.id)) errors.push('The ending prank GIF must not repeat an answer GIF.');
+  if (gifIds.includes(endingGif.id)) errors.push('The final GIF must not repeat an answer GIF.');
+  if (endingGif.id === prankGif.id) errors.push('The final GIF must not repeat the prank GIF.');
   if (!prankGif.page.includes(prankGif.id)) errors.push('Invalid prank GIF page.');
+  if (!endingGif.page.includes(endingGif.id)) errors.push('Invalid final GIF page.');
 
   if (errors.length) throw new Error(`Invalid personality game data:\n- ${errors.join('\n- ')}`);
   return true;

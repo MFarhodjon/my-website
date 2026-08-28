@@ -114,63 +114,32 @@
       <p class="lead">I got you. 😌</p>
     </section>
 
-    <section class="screen rescue-screen" id="rescueScreen" aria-labelledby="rescueTitle" hidden>
-      <p class="eyebrow alert">Wait…</p>
-      <div class="glitch-card" aria-hidden="true"><span>NOT THE REAL ENDING</span></div>
-      <h2 id="rescueTitle" tabindex="-1">Okay, that would have been rude.</h2>
-      <p class="lead">That was only the fake surprise.</p>
-    </section>
-
-    <section class="screen real-twist-screen" id="realTwistScreen" aria-labelledby="realTwistTitle" hidden>
-      <p class="eyebrow">Actual plot twist</p>
-      <div class="secret-file-icon" aria-hidden="true">🗂️</div>
-      <h2 id="realTwistTitle" tabindex="-1">I was secretly collecting instructions.</h2>
-      <p class="lead">Your answers were building a plan for a day you would actually enjoy.</p>
-    </section>
-
-    <section class="screen mission-build-screen" id="missionBuildScreen" aria-labelledby="missionBuildTitle" hidden>
-      <p class="eyebrow">Opening the classified file</p>
-      <h2 id="missionBuildTitle" tabindex="-1">Building your mission…</h2>
-      <div class="mission-preview-card" id="missionPreviewCard">
-        <span class="mission-preview-icon" id="missionPreviewIcon" aria-hidden="true">📍</span>
-        <strong id="missionPreviewLabel">The setting</strong>
-        <p id="missionPreviewText">Choosing the right kind of place…</p>
-      </div>
-      <div class="mission-build-progress" aria-hidden="true">
-        <span data-mission-dot="0"></span>
-        <span data-mission-dot="1"></span>
-        <span data-mission-dot="2"></span>
-      </div>
-    </section>
-
-    <section class="screen result-screen" id="resultScreen" aria-labelledby="resultTitle" hidden>
-      <p class="eyebrow">Classified file unlocked</p>
-      <div class="mission-stamp">TOP SECRET · RACCOON APPROVED</div>
-      <h2 id="resultTitle" tabindex="-1">Operation Good Day</h2>
-      <p class="mission-archetype" id="missionArchetype"></p>
-      <p class="result-intro">Not a label or a test result—just the clearest clues your choices gave us.</p>
-
-      <div class="blueprint-grid" id="blueprintGrid"></div>
-
-      <div class="absurd-notes" id="absurdNotes" aria-label="Unofficial bonus findings"></div>
-
-      <div class="final-question" aria-labelledby="finalQuestionTitle">
-        <p class="eyebrow">Mission file complete</p>
-        <h3 id="finalQuestionTitle">What should happen next?</h3>
-        <p>All three answers are completely okay.</p>
-        <div class="final-choice-grid" id="finalChoiceGrid">
-          <button class="button final-choice" type="button" data-response="use_settings">Build the mission ✨</button>
-          <button class="button final-choice" type="button" data-response="show_idea">Show me a preview 🔎</button>
-          <button class="button final-choice" type="button" data-response="not_now">Save it for later 🙂</button>
-        </div>
-      </div>
+    <section class="screen truth-screen" id="truthScreen" aria-labelledby="truthTitle" hidden>
+      <p class="eyebrow">Okay, truth time</p>
+      <div class="truth-raccoon" aria-hidden="true">🦝</div>
+      <h2 id="truthTitle" tabindex="-1">The raccoon wasn’t just being nosy.</h2>
+      <p class="lead truth-message">It was helping me learn the little things you enjoy—so I can make your day a little happier.</p>
     </section>
 
     <section class="screen ending-screen" id="endingScreen" aria-labelledby="endingTitle" hidden>
-      <p class="eyebrow" id="endingEyebrow">Blueprint received</p>
-      <h2 id="endingTitle" tabindex="-1">Settings saved! 🎉</h2>
-      <p class="lead" id="endingMessage"></p>
-      <p class="ending-joke" id="endingJoke"></p>
+      <p class="eyebrow">The real surprise</p>
+      <h2 id="endingTitle" tabindex="-1">This silly little game was just my way of paying attention.</h2>
+      <div class="reaction-gif-frame finale-gif-frame" id="endingGifFrame">
+        <div class="reaction-fallback" id="endingFallback" aria-hidden="true">
+          <span>🦝</span>
+          <small>The raccoon is celebrating.</small>
+        </div>
+        <iframe
+          id="endingGif"
+          class="reaction-gif"
+          src="about:blank"
+          title="A happy raccoon dancing in a circle"
+          allow="autoplay; fullscreen"
+          referrerpolicy="no-referrer"
+        ></iframe>
+      </div>
+      <a class="gif-credit" id="endingGifCredit" href="https://giphy.com/gifs/raccoon-pedro-Dg4TxjYikCpiGd7tYs" target="_blank" rel="noopener noreferrer">via GIPHY</a>
+      <p class="ending-joke">That was the real surprise. Thanks for playing along. 🦝</p>
       <div class="ending-actions">
         <button class="button primary" id="replayButton" type="button">Play again ↻</button>
         <a class="button secondary" href="./">Play the first game</a>

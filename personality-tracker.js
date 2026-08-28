@@ -3,7 +3,7 @@ import { appCheckSiteKey, firebaseConfig } from './firebase-config.js';
 const FIREBASE_VERSION = '12.18.0';
 const FIREBASE_APP_NAME = 'good-mood-quiz';
 const COLLECTION_NAME = 'personalityRuns';
-const GAME_VERSION = 'instinct-surprise-v2';
+const GAME_VERSION = 'instinct-surprise-v3';
 const REQUIRED_CONFIG = ['apiKey', 'authDomain', 'projectId', 'appId'];
 
 const QUESTION_CHOICES = Object.freeze({
@@ -29,7 +29,7 @@ const PROFILE_CHOICES = Object.freeze({
   surpriseStyle: ['full_mystery', 'one_clue', 'co_created']
 });
 
-const FINAL_RESPONSES = new Set(['use_settings', 'show_idea', 'not_now']);
+const FINAL_RESPONSES = new Set(['use_settings', 'show_idea', 'not_now', 'ending_seen']);
 const isConfigured = REQUIRED_CONFIG.every((key) => Boolean(firebaseConfig[key]));
 
 let firebasePromise;
