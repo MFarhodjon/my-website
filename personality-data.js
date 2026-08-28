@@ -6,9 +6,9 @@ export const reactionAssets = Object.freeze({
     fallbackEmoji: '👋'
   },
   trusted_person: {
-    id: '2nCEQcIdJRQbjong7O',
-    page: 'https://giphy.com/gifs/HBOMax-2nCEQcIdJRQbjong7O',
-    alt: 'Will Smith and Uncle Phil sharing a warm hug',
+    id: '3o85gfVplErR89znCU',
+    page: 'https://giphy.com/gifs/nickatnite-friends-chandler-cling-3o85gfVplErR89znCU',
+    alt: 'Chandler clinging dramatically to a friend',
     fallbackEmoji: '🤝'
   },
   warm_up: {
@@ -36,27 +36,27 @@ export const reactionAssets = Object.freeze({
     fallbackEmoji: '📍'
   },
   listen: {
-    id: 'jc5qrcAtnjSyp9SiH9',
-    page: 'https://giphy.com/gifs/thedrewbarrymoreshow-listening-drew-barrymore-the-show-jc5qrcAtnjSyp9SiH9',
-    alt: 'Oprah listening warmly and nodding',
+    id: '9td6Mkz5B00LCPNnKZ',
+    page: 'https://giphy.com/gifs/AppleTV-coach-lasso-ted-9td6Mkz5B00LCPNnKZ',
+    alt: 'Ted Lasso leaning in and listening carefully',
     fallbackEmoji: '👂'
   },
   solve: {
-    id: '7c8tVAoAFkZ9aLDJ26',
-    page: 'https://giphy.com/gifs/ThisIsMashed-animation-animated-mashed-7c8tVAoAFkZ9aLDJ26',
-    alt: 'An animated builder fixing a machine',
+    id: 'aMipyIAtahg21LoFwU',
+    page: 'https://giphy.com/gifs/aMipyIAtahg21LoFwU',
+    alt: 'A cat seriously pretending to repair a computer',
     fallbackEmoji: '🧰'
   },
   ask_need: {
-    id: 'N7Uq00XtBpUuQ',
-    page: 'https://giphy.com/gifs/disney-walt-disney-animation-studios-big-hero-6-baymax-N7Uq00XtBpUuQ',
-    alt: 'Baymax calmly offering help',
+    id: 'mFeNGR1W1O2JYqjsMO',
+    page: 'https://giphy.com/gifs/teamcoco-kyle-ayers-mFeNGR1W1O2JYqjsMO',
+    alt: 'Someone rapidly taking notes',
     fallbackEmoji: '💬'
   },
   try_new: {
-    id: 'P07KUtlPVKvoQ',
-    page: 'https://giphy.com/gifs/disneypixar-disney-pixar-P07KUtlPVKvoQ',
-    alt: 'Remy enthusiastically tasting cheese',
+    id: 'jRxAQP2XinbDgmNEwy',
+    page: 'https://giphy.com/gifs/tlc-network-tlc-babies-jRxAQP2XinbDgmNEwy',
+    alt: 'A baby tasting a lemon and making a surprised sour face',
     fallbackEmoji: '🥢'
   },
   choose_favorite: {
@@ -84,9 +84,9 @@ export const reactionAssets = Object.freeze({
     fallbackEmoji: '🔎'
   },
   help_plan: {
-    id: 'KffdTQfewxdbKTGEJY',
-    page: 'https://giphy.com/gifs/KffdTQfewxdbKTGEJY',
-    alt: 'Two Star Trek characters exchanging an approving nod',
+    id: 'pHb82xtBPfqEg',
+    page: 'https://giphy.com/gifs/arnold-schwarzenegger-predator-pHb82xtBPfqEg',
+    alt: 'Arnold Schwarzenegger and Carl Weathers sharing an intense handshake',
     fallbackEmoji: '🤝'
   },
   negotiate: {
@@ -126,9 +126,9 @@ export const reactionAssets = Object.freeze({
     fallbackEmoji: '⚖️'
   },
   replan: {
-    id: '5z0cCCGooBQUtejM4v',
-    page: 'https://giphy.com/gifs/5z0cCCGooBQUtejM4v',
-    alt: 'Trevor Noah celebrating a solved problem',
+    id: '9058ZMj6ooluP4UUPl',
+    page: 'https://giphy.com/gifs/moodman-modern-problems-require-solutions-9058ZMj6ooluP4UUPl',
+    alt: 'Dave Chappelle tapping his temple about modern solutions',
     fallbackEmoji: '🗺️'
   },
   improvise: {
@@ -156,15 +156,15 @@ export const reactionAssets = Object.freeze({
     fallbackEmoji: '🌙'
   },
   quiet_company: {
-    id: 'vVGzlimI9KAOQ',
-    page: 'https://giphy.com/gifs/disney-big-hero-6-baymax-hiro-vVGzlimI9KAOQ',
-    alt: 'Baymax gently comforting Hiro',
+    id: 'i8S4SW14ULGAjlXGZq',
+    page: 'https://giphy.com/gifs/Nordisk-Film-vielskerfilm-nicolas-cage-nick-the-unbearable-weight-of-massive-i8S4SW14ULGAjlXGZq',
+    alt: 'Pedro Pascal and Nicolas Cage sharing a strange quiet car ride',
     fallbackEmoji: '☕'
   },
   no_details: {
-    id: 'l3vQXKwq8Jyo57liU',
-    page: 'https://giphy.com/gifs/abcnetwork-im-in-american-housewife-l3vQXKwq8Jyo57liU',
-    alt: 'Someone immediately saying they are in',
+    id: 'AWv3UAFkgz39u',
+    page: 'https://giphy.com/gifs/AWv3UAFkgz39u',
+    alt: 'Barney Stinson declaring challenge accepted',
     fallbackEmoji: '🎭'
   },
   need_basics: {
@@ -174,15 +174,15 @@ export const reactionAssets = Object.freeze({
     fallbackEmoji: '🧾'
   },
   depends_day: {
-    id: 'Qvvy4cs03NrAVGjYvE',
-    page: 'https://giphy.com/gifs/curbyourenthusiasm-hbo-curb-your-enthusiasm-Qvvy4cs03NrAVGjYvE',
-    alt: 'Larry David looking uncertain',
+    id: 'fPYeJtlH8qjiHbKygX',
+    page: 'https://giphy.com/gifs/fPYeJtlH8qjiHbKygX',
+    alt: 'Larry David giving a long uncertain shrug',
     fallbackEmoji: '🌤️'
   },
   hear_out: {
-    id: '3o6ZtqINioC4DdUkLu',
-    page: 'https://giphy.com/gifs/Originals-surprised-go-on-intrigued-3o6ZtqINioC4DdUkLu',
-    alt: 'Someone listening closely with popcorn',
+    id: 'guufsF0Az3Lpu',
+    page: 'https://giphy.com/gifs/guufsF0Az3Lpu',
+    alt: 'Michael Jackson watching closely while eating popcorn',
     fallbackEmoji: '🍿'
   },
   unplug: {
@@ -204,16 +204,16 @@ export const reactionAssets = Object.freeze({
     fallbackEmoji: '🎉'
   },
   private_words: {
-    id: 'sH6ndKZhzUBOtV652s',
-    page: 'https://giphy.com/gifs/cbs-bob-hearts-abishola-bobheartsabishola-christine-ebersole-sH6ndKZhzUBOtV652s',
-    alt: 'Someone warmly saying they are proud of you',
+    id: 'l3JDFJncJHteKIYzm',
+    page: 'https://giphy.com/gifs/l3JDFJncJHteKIYzm',
+    alt: 'Kris Jenner says, “You’re doing amazing, sweetie.”',
     fallbackEmoji: '💌'
   },
   simple_time: {
     id: 'ftrKLbppIyfkK7HgWA',
     page: 'https://giphy.com/gifs/Friends-friends-tv-episode-107-ftrKLbppIyfkK7HgWA',
-    alt: 'Ross relaxing comfortably in a chair',
-    fallbackEmoji: '🫖'
+    alt: 'Joey crowds onto Chandler’s recliner so they can relax together',
+    fallbackEmoji: '🛋️'
   }
 });
 
@@ -230,7 +230,7 @@ export const questions = Object.freeze([
     prompt: 'You go to a party where you know only one person. What do you do?',
     choices: [
       { id: 'meet_people', label: 'Talk to new people', icon: '👋', gif: 'meet_people', pose: 'bounce', reaction: 'New people? Challenge accepted.', score: 1, summary: 'You are comfortable starting conversations with new people.' },
-      { id: 'trusted_person', label: 'Stay with the person I know', icon: '🤝', gif: 'trusted_person', pose: 'nod', reaction: 'One familiar person. Perfect.', score: 0, summary: 'You feel more comfortable staying near someone you know.' },
+      { id: 'trusted_person', label: 'Stay with the person I know', icon: '🤝', gif: 'trusted_person', pose: 'nod', reaction: 'Found my person. I live here now.', score: 0, summary: 'You feel more comfortable staying near someone you know.' },
       { id: 'warm_up', label: 'Wait and see how I feel', icon: '👀', gif: 'warm_up', pose: 'inspect', reaction: 'Checking the room first.', score: -1, summary: 'You like to understand the mood before joining in.' }
     ]
   },
@@ -247,9 +247,9 @@ export const questions = Object.freeze([
     id: 'friend_bad_day', theme: 'coral', icon: '💬',
     prompt: 'Someone you care about had a bad day. What do you do first?',
     choices: [
-      { id: 'listen', label: 'Listen and comfort them', icon: '💛', gif: 'listen', pose: 'nod', reaction: 'Listening mode: on.', summary: 'When someone is upset, you listen and comfort them first.' },
-      { id: 'solve', label: 'Help fix the problem', icon: '🧰', gif: 'solve', pose: 'inspect', reaction: 'Problem-solving mode: on.', summary: 'You show care by helping solve the problem.' },
-      { id: 'ask_need', label: 'Ask what they need', icon: '🎛️', gif: 'ask_need', pose: 'nod', reaction: 'Best move: ask first.', summary: 'You ask what kind of support would help.' }
+      { id: 'listen', label: 'Listen and comfort them', icon: '💛', gif: 'listen', pose: 'nod', reaction: 'Listening mode: fully activated.', summary: 'When someone is upset, you listen and comfort them first.' },
+      { id: 'solve', label: 'Help fix the problem', icon: '🧰', gif: 'solve', pose: 'inspect', reaction: 'Tiny repair team deployed.', summary: 'You show care by helping solve the problem.' },
+      { id: 'ask_need', label: 'Ask what they need', icon: '🎛️', gif: 'ask_need', pose: 'nod', reaction: 'Taking notes. Very professional.', summary: 'You ask what kind of support would help.' }
     ]
   },
   {
@@ -267,7 +267,7 @@ export const questions = Object.freeze([
     choices: [
       { id: 'no_spoilers', label: 'Tell me nothing about it', icon: '🙈', gif: 'no_spoilers', pose: 'bounce', reaction: 'Full surprise. No clues.', summary: 'You enjoy a surprise most when every detail stays secret.' },
       { id: 'one_clue', label: 'Give me one clue', icon: '🔎', gif: 'one_clue', pose: 'inspect', reaction: 'One clue is enough.', summary: 'One clue helps you enjoy a surprise without ruining it.' },
-      { id: 'help_plan', label: 'Let me help plan it', icon: '🧭', gif: 'help_plan', pose: 'nod', reaction: 'Planning together feels better.', summary: 'You enjoy surprises more when you help plan them.' }
+      { id: 'help_plan', label: 'Let me help plan it', icon: '🧭', gif: 'help_plan', pose: 'nod', reaction: 'Teamwork just got unnecessarily intense.', summary: 'You enjoy surprises more when you help plan them.' }
     ]
   },
   {
@@ -292,7 +292,7 @@ export const questions = Object.freeze([
     id: 'plan_breaks', theme: 'blue', icon: '🗺️',
     prompt: 'Your plan is cancelled at the last minute. What do you do?',
     choices: [
-      { id: 'replan', label: 'Make a new plan', icon: '🗺️', gif: 'replan', pose: 'inspect', reaction: 'Backup plan ready.', score: 1, summary: 'When plans change, making a new plan helps.' },
+      { id: 'replan', label: 'Make a new plan', icon: '🗺️', gif: 'replan', pose: 'inspect', reaction: 'Modern problem. Modern backup plan.', score: 1, summary: 'When plans change, making a new plan helps.' },
       { id: 'improvise', label: 'Choose something in the moment', icon: '🎷', gif: 'improvise', pose: 'bounce', reaction: 'No plan? No problem.', score: -1, summary: 'When plans change, you can choose something in the moment.' },
       { id: 'pause_then_choose', label: 'Stop and think first', icon: '⏸️', gif: 'pause_then_choose', pose: 'freeze', reaction: 'Pause. Think. Continue.', score: 0, summary: 'When plans change, you prefer to stop and think first.' }
     ]
@@ -310,16 +310,16 @@ export const questions = Object.freeze([
     id: 'mystery_activity', theme: 'violet', icon: '🎭',
     prompt: 'A close friend invites you to a surprise activity. What do you say?',
     choices: [
-      { id: 'no_details', label: 'Yes, without details', icon: '🎭', gif: 'no_details', pose: 'bounce', reaction: 'Surprise accepted.', score: 1, summary: 'With someone you trust, you can enjoy saying yes without details.' },
+      { id: 'no_details', label: 'Yes, without details', icon: '🎭', gif: 'no_details', pose: 'bounce', reaction: 'Challenge accepted. Details declined.', score: 1, summary: 'With someone you trust, you can enjoy saying yes without details.' },
       { id: 'need_basics', label: 'Tell me the basics first', icon: '🧾', gif: 'need_basics', pose: 'inspect', reaction: 'Details first. Then fun.', score: 0, summary: 'A few basic details help you enjoy something new.' },
-      { id: 'depends_day', label: 'It depends on the day', icon: '🌤️', gif: 'depends_day', pose: 'wiggle', reaction: 'The mood decides.', score: -1, summary: 'Your interest in something new depends on how you feel that day.' }
+      { id: 'depends_day', label: 'It depends on the day', icon: '🌤️', gif: 'depends_day', pose: 'wiggle', reaction: 'The internal committee says: maybe.', score: -1, summary: 'Your interest in something new depends on how you feel that day.' }
     ]
   },
   {
-    id: 'talking_fridge', theme: 'teal', icon: '🫊', silly: true,
+    id: 'talking_fridge', theme: 'teal', icon: '🧊', silly: true,
     prompt: 'Your fridge starts giving you life advice. What do you do?',
     choices: [
-      { id: 'hear_out', label: 'Listen to it', icon: '👂', gif: 'hear_out', pose: 'inspect', reaction: 'Maybe the fridge has a point.' },
+      { id: 'hear_out', label: 'Listen to it', icon: '👂', gif: 'hear_out', pose: 'inspect', reaction: 'The fridge has the floor.' },
       { id: 'unplug', label: 'Unplug it', icon: '🔌', gif: 'unplug', pose: 'wiggle', reaction: 'Fridge advice: cancelled.' },
       { id: 'ask_lottery', label: 'Ask for lottery numbers', icon: '🔮', gif: 'ask_lottery', pose: 'bounce', reaction: 'Finally, the important question.' }
     ]
@@ -329,7 +329,7 @@ export const questions = Object.freeze([
     prompt: 'Someone wants to celebrate something you did. What feels best?',
     choices: [
       { id: 'little_fuss', label: 'A small celebration', icon: '🎉', gif: 'little_fuss', pose: 'celebrate', reaction: 'Small celebration. Big smile.', summary: 'A small, cheerful celebration feels good.' },
-      { id: 'private_words', label: 'Kind words in private', icon: '💌', gif: 'private_words', pose: 'nod', reaction: 'Quiet words can mean a lot.', summary: 'Private, thoughtful words mean a lot to you.' },
+      { id: 'private_words', label: 'Kind words in private', icon: '💌', gif: 'private_words', pose: 'nod', reaction: 'Private praise received. Trying to act normal.', summary: 'Private, thoughtful words mean a lot to you.' },
       { id: 'simple_time', label: 'Quiet time together', icon: '🫖', gif: 'simple_time', pose: 'wiggle', reaction: 'Simple time together wins.', summary: 'Quiet time together can be the best kind of celebration.' }
     ]
   }
