@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="description" content="Seven ordinary objects are waiting for a very small experiment.">
+  <meta name="theme-color" content="#101528">
+  <meta property="og:title" content="A Small After-Hours Experiment">
+  <meta property="og:description" content="Seven ordinary objects. Touch each one once.">
+  <meta property="og:type" content="website">
+  <title>Seven Ordinary Objects</title>
+  <link rel="stylesheet" href="orchestra.css">
+</head>
+<body>
+  <div class="room-glow" aria-hidden="true"><span></span><span></span><span></span></div>
+  <canvas id="effectsCanvas" aria-hidden="true"></canvas>
+
+  <main class="experience" id="experience" data-phase="landing">
+    <header class="top-bar">
+      <span class="department-mark">AFTER-HOURS DEPARTMENT</span>
+      <button class="sound-toggle" id="soundToggle" type="button" aria-pressed="false" hidden>
+        <span aria-hidden="true">♪</span>
+        <span id="soundLabel">Sound off</span>
+      </button>
+    </header>
+
+    <section class="scene landing-scene is-active" id="landingScene" aria-labelledby="landingTitle">
+      <div class="landing-preview" aria-hidden="true">
+        <span class="preview-glass"></span>
+        <span class="preview-key">⌁</span>
+        <span class="preview-spoon"></span>
+        <span class="preview-plant">♧</span>
+        <i></i>
+      </div>
+      <p class="eyebrow">A 30-second experiment</p>
+      <h1 id="landingTitle" tabindex="-1">Seven ordinary objects.</h1>
+      <p class="lead">Touch each one once. They handle the rest.</p>
+      <button class="button primary-button" id="beginSoundButton" type="button">
+        Wake the table <span aria-hidden="true">♪</span>
+      </button>
+      <button class="silent-button" id="beginSilentButton" type="button">Continue quietly</button>
+      <p class="sound-note">Sound adds quite a lot.</p>
+    </section>
+
+    <section class="scene stage-scene" id="stageScene" data-act="collecting" aria-labelledby="stageTitle" hidden>
+      <div class="stage-world" id="stageWorld">
+        <div class="wall-light" aria-hidden="true"></div>
+        <div class="curtain curtain-left" aria-hidden="true"></div>
+        <div class="curtain curtain-right" aria-hidden="true"></div>
+        <div class="concert-sign" aria-hidden="true">
+          <small>LIVE FROM THIS TABLE</small>
+          <strong>THE ACCIDENTAL ORCHESTRA</strong>
+          <span>“SEVEN SMALL DECISIONS”</span>
+        </div>
+        <div class="stage-lights" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+
+        <div class="tabletop" aria-hidden="true"><span class="table-edge"></span></div>
+
+        <button class="table-object object-glass" data-object="glass" type="button" aria-label="Touch the glass">
+          <svg viewBox="0 0 120 150" aria-hidden="true">
+            <ellipse class="object-stroke" cx="60" cy="24" rx="31" ry="9"/>
+            <path class="glass-body object-stroke" d="M29 24 38 112Q60 129 82 112L91 24"/>
+            <path class="glass-liquid" d="M36 69Q60 79 84 69L80 108Q60 120 40 108Z"/>
+            <ellipse class="glass-shine" cx="49" cy="54" rx="4" ry="19"/>
+          </svg>
+          <span class="object-name">Glass</span>
+        </button>
+
+        <button class="table-object object-key" data-object="key" type="button" aria-label="Touch the key">
+          <svg viewBox="0 0 150 110" aria-hidden="true">
+            <circle class="object-stroke key-ring" cx="39" cy="52" r="24"/>
+            <circle class="key-hole" cx="39" cy="52" r="9"/>
+            <path class="object-stroke key-shaft" d="M61 52H128M103 52V72M119 52V65"/>
+            <path class="key-glint" d="m31 22 4-12 4 12 12 4-12 4-4 12-4-12-12-4Z"/>
+          </svg>
+          <span class="object-name">Key</span>
+        </button>
+
+        <button class="table-object object-spoon" data-object="spoon" type="button" aria-label="Touch the spoon">
+          <svg viewBox="0 0 100 160" aria-hidden="true">
+            <ellipse class="object-stroke spoon-bowl" cx="50" cy="34" rx="25" ry="31"/>
+            <path class="object-stroke spoon-handle" d="M50 65V144"/>
+            <path class="spoon-shine" d="M38 18Q31 35 39 48"/>
+          </svg>
+          <span class="object-name">Spoon</span>
+        </button>
+
+        <button class="table-object object-band" data-object="band" type="button" aria-label="Touch the rubber band">
+          <svg viewBox="0 0 150 100" aria-hidden="true">
+            <path class="object-stroke band-loop" d="M18 53C24 13 125 8 134 45S41 97 18 53Z"/>
+            <path class="band-inner" d="M29 52C36 24 115 18 123 46S47 82 29 52Z"/>
+          </svg>
+          <span class="object-name">Rubber band</span>
+        </button>
+
+        <button class="table-object object-receipt" data-object="receipt" type="button" aria-label="Touch the receipt">
+          <svg viewBox="0 0 110 150" aria-hidden="true">
+            <path class="receipt-paper" d="M13 7H97V136L88 130l-8 6-9-6-8 6-9-6-9 6-8-6-8 6-6-6Z"/>
+            <path class="receipt-lines" d="M28 31H82M28 47H72M28 75H82M28 91H63M28 111H82"/>
+            <circle class="receipt-dot" cx="79" cy="48" r="6"/>
+          </svg>
+          <span class="object-name">Receipt</span>
+        </button>
+
+        <button class="table-object object-matchbox" data-object="matchbox" type="button" aria-label="Touch the matchbox">
+          <svg viewBox="0 0 140 110" aria-hidden="true">
+            <path class="match-drawer" d="M22 31H119V91H22Z"/>
+            <path class="match-sleeve" d="M10 17H108V78H10Z"/>
+            <path class="match-label" d="M34 32H84V62H34Z"/>
+            <path class="match-star" d="m59 36 4 9 10 1-8 6 3 9-9-5-9 5 3-9-8-6 10-1Z"/>
+            <path class="matches" d="M91 29h32M91 42h32M91 55h32"/>
+          </svg>
+          <span class="object-name">Matchbox</span>
+        </button>
+
+        <button class="table-object object-plant" data-object="plant" type="button" aria-label="Touch the plant">
+          <svg viewBox="0 0 140 170" aria-hidden="true">
+            <path class="plant-stem" d="M70 112V37M70 65 41 42M70 86l31-27"/>
+            <path class="plant-leaf leaf-one" d="M66 61C37 66 25 48 29 27 53 26 67 39 66 61Z"/>
+            <path class="plant-leaf leaf-two" d="M74 80c31 0 43-18 39-39-25 0-39 15-39 39Z"/>
+            <path class="plant-leaf leaf-three" d="M66 43C51 25 57 9 72 2c13 17 10 31-6 41Z"/>
+            <path class="plant-pot" d="M38 105H102L94 158H46Z"/>
+            <path class="pot-rim" d="M32 101H108V118H32Z"/>
+          </svg>
+          <span class="object-name">Plant</span>
+        </button>
+
+        <div class="audience" aria-hidden="true">
+          <span></span><span></span><span></span><span></span><span></span><span></span>
+          <span></span><span></span><span></span><span></span><span></span><span></span>
+        </div>
+
+        <div class="blackout-copy" id="blackoutCopy" aria-hidden="true">
+          <p id="blackoutLine">Now keep your hands off the table.</p>
+        </div>
+      </div>
+
+      <div class="stage-copy" id="stageCopy">
+        <div class="progress-count"><span id="objectCount">0</span> / 7</div>
+        <h2 id="stageTitle" tabindex="-1">Touch any object.</h2>
+        <p id="reactionLine" aria-live="polite">Each one is pretending to be normal.</p>
+      </div>
+    </section>
+
+    <section class="scene finale-scene" id="finaleScene" aria-labelledby="finaleTitle" hidden>
+      <div class="final-stage" aria-hidden="true">
+        <div class="final-spotlight"></div>
+        <div class="mini-band">
+          <span>♧</span><span>⌁</span><span>♩</span><span>▱</span><span>◯</span><span>▤</span><span>✦</span>
+        </div>
+        <div class="mini-audience"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+
+      <div class="receipt-card" id="receiptCard">
+        <p class="receipt-heading">FINAL RECEIPT</p>
+        <div class="receipt-row"><span>Before you arrived</span><strong>7 ordinary objects</strong></div>
+        <div class="receipt-rule"></div>
+        <div class="receipt-row"><span>After you arrived</span><strong>1 sold-out concert</strong></div>
+        <div class="receipt-meta">
+          <span>Seven decisions</span>
+          <span id="performanceTime">Performed once</span>
+        </div>
+      </div>
+
+      <p class="after-note">They have never done that exact thing before.</p>
+      <h2 id="finaleTitle" tabindex="-1">Apparently, ordinary things become more interesting when you show up.</h2>
+
+      <div class="final-actions">
+        <button class="button primary-button" id="saveButton" type="button">Keep the receipt</button>
+        <button class="button encore-button" id="encoreButton" type="button">Encore</button>
+      </div>
+    </section>
+  </main>
+
+  <div class="pause-overlay" id="pauseOverlay" role="dialog" aria-modal="true" aria-labelledby="pauseTitle" hidden>
+    <div>
+      <p class="eyebrow">Intermission</p>
+      <h2 id="pauseTitle">The band waited for you.</h2>
+      <button class="button primary-button" id="resumeButton" type="button">Continue the concert</button>
+    </div>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+  <div class="sr-only" id="announcer" aria-live="polite"></div>
+  <script type="module" src="orchestra.js"></script>
+</body>
+</html>
