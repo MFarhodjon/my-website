@@ -7,7 +7,7 @@ const quizData = [
     icon: '✈️',
     theme: 'sky',
     yes: {
-      reaction: 'Pasport energiyasi aniqlandi. Bu yo‘lga chiqqanlik hissi sizda bor ekan.',
+      reaction: 'Pasport energiyasi aniqlandi. Hamyoningiz buni eshitmaganga oldi.',
       sticker: '✈️', face: '•̀ᴗ•́', visual: ['✈️', '💸'], effect: 'fly'
     },
     no: {
