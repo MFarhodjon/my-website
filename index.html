@@ -1,11 +1,11 @@
 <!doctype html>
-<html lang="en">
+<html lang="uz">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="A completely unnecessary 30-second good-mood test">
+  <meta name="description" content="30 soniyalik butunlay keraksiz kayfiyat testi">
   <meta name="theme-color" content="#dff5ff">
-  <title>The Totally Scientific Good-Mood Test</title>
+  <title>Rasman Ilmiy Kayfiyat Testi</title>
   <link rel="stylesheet" href="styles.css">
 </head>
 <body data-theme="sky">
@@ -16,8 +16,8 @@
   <main class="app" id="app" data-view="start">
     <header class="progress-header" id="progressHeader" hidden>
       <div class="progress-copy">
-        <span id="progressLabel">Question 1 of 5</span>
-        <span id="progressStatus">Good-mood check</span>
+        <span id="progressLabel">1-savol, 5 tadan</span>
+        <span id="progressStatus">Kayfiyat tekshiruvi</span>
       </div>
       <div class="progress-track" role="progressbar" id="progressTrack" aria-valuemin="0" aria-valuemax="5" aria-valuenow="1">
         <span class="progress-bar" id="progressBar"></span>
@@ -44,62 +44,62 @@
     </div>
 
     <section class="screen" id="startScreen" aria-labelledby="startTitle">
-      <p class="eyebrow">Peer-reviewed by absolutely nobody</p>
-      <h1 id="startTitle" tabindex="-1">The Totally Scientific Good-Mood Test</h1>
-      <p class="lead"><strong>30 seconds. 5 tiny choices. Zero wrong answers.</strong></p>
-      <p class="supporting">Warning: may improve your mood for no serious reason.</p>
+      <p class="eyebrow">Hech kim tomonidan ko'rib chiqilmagan</p>
+      <h1 id="startTitle" tabindex="-1">Rasman Ilmiy Kayfiyat Testi</h1>
+      <p class="lead"><strong>30 soniya. 5 ta mayda tanlov. Noto'g'ri javob yo'q.</strong></p>
+      <p class="supporting">Ogohlantirish: sababsiz kayfiyatingizni ko'tarib yuborishi mumkin.</p>
       <div class="start-actions">
-        <button class="button primary" id="startButton" type="button">Let's see 😄</button>
-        <a class="button secondary game-link" href="personality.html">Try the instinct game 🦝</a>
+        <button class="button primary" id="startButton" type="button">Ko'ramiz 😄</button>
+        <a class="button secondary game-link" href="personality.html">Instinkt o'yinini sinab ko'r 🦝</a>
       </div>
     </section>
 
     <section class="screen" id="quizScreen" aria-labelledby="questionTitle" hidden>
-      <p class="eyebrow" id="questionEyebrow">Tiny choice 1</p>
-      <h2 id="questionTitle" tabindex="-1">Do you like traveling?</h2>
-      <p class="reaction" id="reaction" aria-live="polite" aria-atomic="true">Pick one. The suitcase is taking notes.</p>
+      <p class="eyebrow" id="questionEyebrow">Mayda tanlov 1</p>
+      <h2 id="questionTitle" tabindex="-1">Sayohat qilishni yoqtirasanmi?</h2>
+      <p class="reaction" id="reaction" aria-live="polite" aria-atomic="true">Birini tanla. Sumka bularni yozib boryapti.</p>
       <div class="answers" id="answers">
-        <button class="button answer yes-answer" id="yesButton" type="button">Yes <span aria-hidden="true">😊</span></button>
-        <button class="button answer no-answer" id="noButton" type="button">No <span aria-hidden="true">🙈</span></button>
+        <button class="button answer yes-answer" id="yesButton" type="button">Ha <span aria-hidden="true">😊</span></button>
+        <button class="button answer no-answer" id="noButton" type="button">Yo'q <span aria-hidden="true">🙈</span></button>
       </div>
     </section>
 
     <section class="screen answer-reaction-screen" id="answerReactionScreen" aria-labelledby="answerReactionTitle" hidden>
-      <p class="eyebrow">Instant reaction</p>
+      <p class="eyebrow">Zudlik bilan reaksiya</p>
       <div class="reaction-visual" id="reactionVisual" data-effect="fly" aria-hidden="true">
         <span class="reaction-icon icon-main" id="reactionIconMain">✈️</span>
         <span class="reaction-icon icon-side" id="reactionIconSide">💸</span>
       </div>
-      <h2 id="answerReactionTitle" tabindex="-1">Passport energy detected.</h2>
-      <p class="reaction-caption">Next tiny choice arriving automatically...</p>
+      <h2 id="answerReactionTitle" tabindex="-1">Pasport energiyasi aniqlandi.</h2>
+      <p class="reaction-caption">Keyingi mayda tanlov avtomatik ravishda keladi...</p>
       <div class="reaction-countdown" aria-hidden="true"><span id="reactionCountdown"></span></div>
     </section>
 
     <section class="screen final-intro-screen" id="lastQuestionScreen" aria-labelledby="lastQuestionTitle" hidden>
-      <p class="eyebrow">Plot twist...</p>
-      <h2 id="lastQuestionTitle" tabindex="-1">Wait... one last question.</h2>
-      <p class="lead">The suitcase says this one actually matters.</p>
+      <p class="eyebrow">Kutilmagan burilish...</p>
+      <h2 id="lastQuestionTitle" tabindex="-1">Kutib tur... yana bitta savol qoldi.</h2>
+      <p class="lead">Sumka aytishicha, bu savol chindan ham muhim.</p>
       <div class="mini-loader" aria-hidden="true"><span></span><span></span><span></span></div>
     </section>
 
     <section class="screen final-screen" id="finalScreen" aria-labelledby="finalTitle" hidden>
-      <p class="eyebrow">Okay... one real question</p>
-      <h2 id="finalTitle" tabindex="-1">Would you give me one small chance to make you smile?</h2>
-      <p class="reaction" id="finalReaction" aria-live="polite" aria-atomic="true">Choose carefully. The suitcase has opinions.</p>
+      <p class="eyebrow">Xo'p... bitta jiddiy savol</p>
+      <h2 id="finalTitle" tabindex="-1">Senga tabassum ulashishim uchun bitta kichik imkoniyat berasanmi?</h2>
+      <p class="reaction" id="finalReaction" aria-live="polite" aria-atomic="true">Ehtiyotkorlik bilan tanla. Sumkaning ham o'z fikri bor.</p>
       <div class="answers final-answers">
-        <button class="button answer yes-answer" id="finalYesButton" type="button">Yes, one chance <span aria-hidden="true">🙂</span></button>
-        <button class="button answer no-answer" id="finalNoButton" type="button">No, but nice try <span aria-hidden="true">😄</span></button>
+        <button class="button answer yes-answer" id="finalYesButton" type="button">Ha, bitta imkoniyat <span aria-hidden="true">🙂</span></button>
+        <button class="button answer no-answer" id="finalNoButton" type="button">Yo'q, lekin harakating yoqdi <span aria-hidden="true">😄</span></button>
       </div>
     </section>
 
     <section class="screen ending-screen" id="endingScreen" aria-labelledby="endingTitle" hidden>
-      <p class="eyebrow" id="endingEyebrow">Chance granted</p>
-      <h2 id="endingTitle" tabindex="-1">Deal! 🎉</h2>
+      <p class="eyebrow" id="endingEyebrow">Imkoniyat berildi</p>
+      <h2 id="endingTitle" tabindex="-1">Kelishdik! 🎉</h2>
       <p class="profile-description" id="endingMessage"></p>
       <p class="tiny-joke" id="endingJoke"></p>
       <div class="ending-actions">
-        <button class="button secondary" id="replayButton" type="button">Play it again ↻</button>
-        <a class="button secondary game-link" href="personality.html">Try the instinct game 🦝</a>
+        <button class="button secondary" id="replayButton" type="button">Yana o'ynash ↻</button>
+        <a class="button secondary game-link" href="personality.html">Instinkt o'yinini sinab ko'r 🦝</a>
       </div>
     </section>
   </main>

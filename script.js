@@ -3,18 +3,18 @@ import { quizTelemetry } from './firebase-tracker.js';
 const quizData = [
   {
     id: 'travel',
-    prompt: 'Do you like traveling?',
+    prompt: 'Sayohat qilishni yoqtirasanmi?',
     icon: '✈️',
     theme: 'sky',
     yes: {
-      reaction: 'Passport energy detected. Your bank account just pretended not to hear that.',
+      reaction: 'Pasport energiyasi aniqlandi. Hisob-kitobing buni eshitmaganga oldi.',
       sticker: '✈️',
       face: '•̀ᴗ•́',
       visual: ['✈️', '💸'],
       effect: 'fly'
     },
     no: {
-      reaction: 'Home has snacks, Wi-Fi, and no gate changes. Honestly, elite.',
+      reaction: 'Uyda gazak, Wi-Fi bor va parvoz eshigi almashmaydi. Rostini aytsam, bu elita darajasi.',
       sticker: '🛋️',
       face: '•ᴗ•',
       visual: ['🛋️', '📶'],
@@ -23,18 +23,18 @@ const quizData = [
   },
   {
     id: 'nature',
-    prompt: 'Do you enjoy trips into nature?',
+    prompt: 'Tabiatga sayohat qilishni yoqtirasanmi?',
     icon: '🌿',
     theme: 'nature',
     yes: {
-      reaction: 'Perfect. The mosquitoes have already sent you a friend request.',
+      reaction: 'Zo\'r. Chivinlar senga do\'stlik so\'rovi jo\'natib bo\'ldi.',
       sticker: '🌲',
       face: '•̀ᴗ•́',
       visual: ['🌲', '🦟'],
       effect: 'buzz'
     },
     no: {
-      reaction: 'Fair. Trees are beautiful, but none of them know the Wi-Fi password.',
+      reaction: 'Mantiqiy. Daraxtlar chiroyli, lekin birortasi Wi-Fi parolini bilmaydi.',
       sticker: '📶',
       face: '•ᴗ•',
       visual: ['🌲', '📵'],
@@ -43,18 +43,18 @@ const quizData = [
   },
   {
     id: 'cities',
-    prompt: 'Do you like exploring new cities?',
+    prompt: 'Yangi shaharlarni kezishni yoqtirasanmi?',
     icon: '🏙️',
     theme: 'city',
     yes: {
-      reaction: 'Excellent. 18,000 steps, one tiny coffee, and somehow a great day.',
+      reaction: 'Ajoyib. 18 ming qadam, bitta mayda qahva va negadir ajoyib kun.',
       sticker: '🏙️',
       face: '•̀ᴗ•́',
       visual: ['☕', '👟'],
       effect: 'city'
     },
     no: {
-      reaction: 'Crowds avoided. Social battery still at 100%. Genius.',
+      reaction: 'Olomondan qochildi. Ijtimoiy quvvat hali ham 100%. Bu dahoga xos.',
       sticker: '🔋',
       face: '•ᴗ•',
       visual: ['🔋', '😌'],
@@ -63,18 +63,18 @@ const quizData = [
   },
   {
     id: 'food',
-    prompt: 'Do you enjoy trying new food?',
+    prompt: 'Yangi taomlarni sinab ko\'rishni yoqtirasanmi?',
     icon: '🍜',
     theme: 'food',
     yes: {
-      reaction: 'The mystery sauce respects your courage. The chef gives you a dramatic nod.',
+      reaction: 'Sirli sous jasoratingga hurmat bildiradi. Oshpaz senga dramatik tarzda bosh irg\'aydi.',
       sticker: '🍜',
       face: '•̀ᴗ•́',
       visual: ['🍜', '👨‍🍳'],
       effect: 'chef'
     },
     no: {
-      reaction: 'Fries have never betrayed anyone. Loyalty matters.',
+      reaction: 'Frantsuz kartoshkasi hech kimga xiyonat qilmagan. Sadoqat muhim.',
       sticker: '🍟',
       face: '•ᴗ•',
       visual: ['🍟', '🤝'],
@@ -83,18 +83,18 @@ const quizData = [
   },
   {
     id: 'spontaneous',
-    prompt: 'Do you like spontaneous adventures?',
+    prompt: 'Kutilmagan sarguzashtlarni yoqtirasanmi?',
     icon: '🎒',
     theme: 'adventure',
     yes: {
-      reaction: 'Bag packed. Destination unknown. Future-you is surprisingly confident.',
+      reaction: 'Sumka yig\'ildi. Manzil noma\'lum. Kelajakdagi sen ajablanarli darajada o\'ziga ishonchli.',
       sticker: '⚡',
       face: '•̀ᴗ•́',
       visual: ['🎒', '🗺️'],
       effect: 'backpack'
     },
     no: {
-      reaction: "Your calendar requests 3–5 business days' notice—and a color-coded plan.",
+      reaction: 'Kalendaringiz 3–5 ish kuni oldindan xabar va rangli reja talab qiladi.',
       sticker: '📅',
       face: '•ᴗ•',
       visual: ['📅', '✅'],
@@ -166,13 +166,13 @@ function renderQuestion() {
   answerLocked = false;
   showScreen('quizScreen', current.theme, 'quiz');
   progressHeader.hidden = false;
-  progressLabel.textContent = `Question ${currentQuestion + 1} of ${quizData.length}`;
-  progressStatus.textContent = currentQuestion < 3 ? 'Good-mood check' : 'Almost there';
+  progressLabel.textContent = `${currentQuestion + 1}-savol, ${quizData.length} tadan`;
+  progressStatus.textContent = currentQuestion < 3 ? 'Kayfiyat tekshiruvi' : 'Deyarli tayyor';
   progressTrack.setAttribute('aria-valuenow', String(currentQuestion + 1));
   progressBar.style.width = `${((currentQuestion + 1) / quizData.length) * 100}%`;
-  questionEyebrow.textContent = `Tiny choice ${currentQuestion + 1}`;
+  questionEyebrow.textContent = `Mayda tanlov ${currentQuestion + 1}`;
   questionTitle.textContent = current.prompt;
-  reaction.textContent = 'Pick one. The suitcase is taking notes.';
+  reaction.textContent = 'Birini tanla. Sumka bularni yozib boryapti.';
   reaction.classList.remove('punchline');
   sceneIcon.textContent = current.icon;
   suitcaseFace.textContent = '•ᴗ•';
@@ -237,10 +237,10 @@ function showFinalQuestion() {
   progressHeader.hidden = true;
   endingChosen = false;
   finalNoClicks = 0;
-  finalReaction.textContent = 'Choose carefully. The suitcase has opinions.';
+  finalReaction.textContent = 'Ehtiyotkorlik bilan tanla. Sumkaning ham o\'z fikri bor.';
   finalYesButton.style.transform = '';
   finalNoButton.style.transform = '';
-  finalNoButton.textContent = 'No, but nice try 😄';
+  finalNoButton.textContent = 'Yo\'q, lekin harakating yoqdi 😄';
   sceneIcon.textContent = '💌';
   suitcaseFace.textContent = '•ᴗ•';
   showScreen('finalScreen', 'final', 'final');
@@ -250,9 +250,9 @@ function handleFinalNo() {
   if (endingChosen) return;
 
   const funnyReactions = [
-    ['That was suspiciously fast. The suitcase requests a recount. 🧳', '🤨'],
-    ['The scientists checked. Apparently Yes is still available. 👀', '🔬'],
-    ['Okay, final joke. Your real answer wins. 😄', '😅']
+    ['Bu picha tez bo\'ldi. Sumka qayta hisoblashni so\'ramoqda. 🧳', '🤨'],
+    ['Olimlar tekshirib ko\'rishdi. "Ha" varianti hali ham mavjud ekan. 👀', '🔬'],
+    ['Xo\'p, oxirgi hazil. Haqiqiy javobing g\'alaba qiladi. 😄', '😅']
   ];
 
   finalNoClicks += 1;
@@ -276,7 +276,7 @@ function handleFinalNo() {
   finalNoButton.style.transform = `scale(${noScale})`;
 
   if (finalNoClicks === funnyReactions.length) {
-    finalNoButton.textContent = 'No, honestly 🙂';
+    finalNoButton.textContent = 'Yo\'q, chindan ham 🙂';
   }
 }
 
@@ -291,20 +291,20 @@ function showEnding(answerIsYes) {
   });
 
   if (answerIsYes) {
-    endingEyebrow.textContent = 'Chance granted';
-    endingTitle.textContent = 'Deal! 🎉';
-    endingMessage.textContent = 'No pressure and no grand speech—just one small chance to make you smile.';
-    endingJoke.textContent = 'The suitcase already packed. It packed one sock.';
+    endingEyebrow.textContent = 'Imkoniyat berildi';
+    endingTitle.textContent = 'Kelishdik! 🎉';
+    endingMessage.textContent = 'Hech qanday bosim yo\'q, katta nutq ham yo\'q — faqat seni kuldirish uchun bitta kichik imkoniyat.';
+    endingJoke.textContent = 'Sumka allaqachon yig\'ildi. Faqat bitta paypoq solindi.';
     sceneIcon.textContent = '🎉';
     suitcaseFace.textContent = '♥ᴗ♥';
     suitcase.classList.add('celebrating');
     showScreen('endingScreen', 'result', 'ending');
     launchConfetti();
   } else {
-    endingEyebrow.textContent = 'Fair enough';
-    endingTitle.textContent = 'Answer accepted 🙂';
-    endingMessage.textContent = 'No tricks, no runaway button, and absolutely no hard feelings.';
-    endingJoke.textContent = 'The suitcase still gives you five stars for completing the test.';
+    endingEyebrow.textContent = 'Mayli, tushunarli';
+    endingTitle.textContent = 'Javob qabul qilindi 🙂';
+    endingMessage.textContent = 'Hech qanday hiyla yo\'q, qochib ketuvchi tugma yo\'q va hech qanday xafagarchilik yo\'q.';
+    endingJoke.textContent = 'Sumka baribir senga testni tugatganing uchun besh yulduz qo\'yadi.';
     sceneIcon.textContent = '⭐';
     suitcaseFace.textContent = '•ᴗ•';
     showScreen('endingScreen', 'calm', 'ending');
@@ -329,7 +329,7 @@ function resetExperience() {
   sceneIcon.textContent = '✨';
   finalYesButton.style.transform = '';
   finalNoButton.style.transform = '';
-  finalNoButton.textContent = 'No, but nice try 😄';
+  finalNoButton.textContent = 'Yo\'q, lekin harakating yoqdi 😄';
   confetti.replaceChildren();
   showScreen('startScreen', 'sky', 'start');
 }
