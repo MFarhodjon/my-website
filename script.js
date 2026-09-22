@@ -7,14 +7,14 @@ const quizData = [
     icon: '✈️',
     theme: 'sky',
     yes: {
-      reaction: 'Pasport energiyasi aniqlandi. Hisob-kitobing buni eshitmaganga oldi.',
+      reaction: 'Pasport energiyasi aniqlandi. Bu yo\'lga chiqqanlik hissi to\'g\'ri kelmoqda.',
       sticker: '✈️',
       face: '•̀ᴗ•́',
       visual: ['✈️', '💸'],
       effect: 'fly'
     },
     no: {
-      reaction: 'Uyda gazak, Wi-Fi bor va parvoz eshigi almashmaydi. Rostini aytsam, bu elita darajasi.',
+      reaction: 'Uyda bo\'lish ehtimoli yanada qulayroq: Wi‑Fi, choy va parvoz eshigi yo\'q.',
       sticker: '🛋️',
       face: '•ᴗ•',
       visual: ['🛋️', '📶'],
@@ -27,14 +27,14 @@ const quizData = [
     icon: '🌿',
     theme: 'nature',
     yes: {
-      reaction: 'Zo\'r. Chivinlar senga do\'stlik so\'rovi jo\'natib bo\'ldi.',
+      reaction: 'Zo\'r. O\'rmonlar senga yaxshi niyat bilan qaraydi.',
       sticker: '🌲',
       face: '•̀ᴗ•́',
       visual: ['🌲', '🦟'],
       effect: 'buzz'
     },
     no: {
-      reaction: 'Mantiqiy. Daraxtlar chiroyli, lekin birortasi Wi-Fi parolini bilmaydi.',
+      reaction: 'Mantiqiy. Daraxtlar go\'zal, lekin ular ham Wi‑Fi simsiz ishlaydi.',
       sticker: '📶',
       face: '•ᴗ•',
       visual: ['🌲', '📵'],
@@ -47,14 +47,14 @@ const quizData = [
     icon: '🏙️',
     theme: 'city',
     yes: {
-      reaction: 'Ajoyib. 18 ming qadam, bitta mayda qahva va negadir ajoyib kun.',
+      reaction: 'Ajoyib. 18 ming qadam, bitta kofe va bir kunda yaxshi his.',
       sticker: '🏙️',
       face: '•̀ᴗ•́',
       visual: ['☕', '👟'],
       effect: 'city'
     },
     no: {
-      reaction: 'Olomondan qochildi. Ijtimoiy quvvat hali ham 100%. Bu dahoga xos.',
+      reaction: 'Olomon senga mos kelmadi. O\'zingning qulay zonang hali ham 100%.',
       sticker: '🔋',
       face: '•ᴗ•',
       visual: ['🔋', '😌'],
@@ -67,7 +67,7 @@ const quizData = [
     icon: '🍜',
     theme: 'food',
     yes: {
-      reaction: 'Sirli sous jasoratingga hurmat bildiradi. Oshpaz senga dramatik tarzda bosh irg\'aydi.',
+      reaction: 'Maxfiy sousga hurmat. Oshpaz senga shunday qaraydi, xuddi filmda.',
       sticker: '🍜',
       face: '•̀ᴗ•́',
       visual: ['🍜', '👨‍🍳'],
@@ -87,14 +87,14 @@ const quizData = [
     icon: '🎒',
     theme: 'adventure',
     yes: {
-      reaction: 'Sumka yig\'ildi. Manzil noma\'lum. Kelajakdagi sen ajablanarli darajada o\'ziga ishonchli.',
+      reaction: 'Sumka tayyor. Manzil noma\'lum. Kelajakdagi sen ajablanarli darajada ishonchli.',
       sticker: '⚡',
       face: '•̀ᴗ•́',
       visual: ['🎒', '🗺️'],
       effect: 'backpack'
     },
     no: {
-      reaction: 'Kalendaringiz 3–5 ish kuni oldindan xabar va rangli reja talab qiladi.',
+      reaction: 'Jadvalingiz oldindan 3–5 kunlik reja va rangli maqsad talab qiladi.',
       sticker: '📅',
       face: '•ᴗ•',
       visual: ['📅', '✅'],
@@ -250,7 +250,7 @@ function handleFinalNo() {
   if (endingChosen) return;
 
   const funnyReactions = [
-    ['Bu picha tez bo\'ldi. Sumka qayta hisoblashni so\'ramoqda. 🧳', '🤨'],
+    ['Bu picha tez bo\'ldi. Sumka yana hisoblashni so\'ramoqda. 🧳', '🤨'],
     ['Olimlar tekshirib ko\'rishdi. "Ha" varianti hali ham mavjud ekan. 👀', '🔬'],
     ['Xo\'p, oxirgi hazil. Haqiqiy javobing g\'alaba qiladi. 😄', '😅']
   ];
@@ -294,7 +294,7 @@ function showEnding(answerIsYes) {
     endingEyebrow.textContent = 'Imkoniyat berildi';
     endingTitle.textContent = 'Kelishdik! 🎉';
     endingMessage.textContent = 'Hech qanday bosim yo\'q, katta nutq ham yo\'q — faqat seni kuldirish uchun bitta kichik imkoniyat.';
-    endingJoke.textContent = 'Sumka allaqachon yig\'ildi. Faqat bitta paypoq solindi.';
+    endingJoke.textContent = 'Sumka allaqachon yig\'ildi. Faqat bitta po\'stik bilan qo\'shildi.';
     sceneIcon.textContent = '🎉';
     suitcaseFace.textContent = '♥ᴗ♥';
     suitcase.classList.add('celebrating');
