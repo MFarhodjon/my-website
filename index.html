@@ -7,102 +7,55 @@
   <meta name="theme-color" content="#dff5ff">
   <title>Rasman Ilmiy Kayfiyat Testi</title>
   <link rel="stylesheet" href="styles.css">
+  <style>
+    .final-flower { display: none; position: relative; z-index: 3; width: 116px; height: 116px; margin: 0 auto 10px; place-items: center; font-size: 5.5rem; line-height: 1; filter: drop-shadow(0 12px 14px rgba(233, 79, 100, .22)); transform-origin: bottom center; transition: transform .35s cubic-bezier(.2, 1.45, .4, 1); }
+    .app[data-view="final"] .suitcase { display: none; }
+    .app[data-view="final"] .final-flower { display: grid; }
+    .final-flower.blooming { animation: flower-bloom .45s cubic-bezier(.2, 1.45, .4, 1); }
+    @keyframes flower-bloom { 0% { transform: scale(var(--flower-scale, 1)) rotate(-8deg); } 50% { transform: scale(calc(var(--flower-scale, 1) + .12)) rotate(8deg); } 100% { transform: scale(var(--flower-scale, 1)) rotate(0); } }
+  </style>
 </head>
 <body data-theme="sky">
-  <div class="background-shapes" aria-hidden="true">
-    <span></span><span></span><span></span><span></span><span></span>
-  </div>
-
+  <div class="background-shapes" aria-hidden="true"><span></span><span></span><span></span><span></span><span></span></div>
   <main class="app" id="app" data-view="start">
     <header class="progress-header" id="progressHeader" hidden>
-      <div class="progress-copy">
-        <span id="progressLabel">1-savol, 5 tadan</span>
-        <span id="progressStatus">Kayfiyat tekshiruvi</span>
-      </div>
-      <div class="progress-track" role="progressbar" id="progressTrack" aria-valuemin="0" aria-valuemax="5" aria-valuenow="1">
-        <span class="progress-bar" id="progressBar"></span>
-      </div>
+      <div class="progress-copy"><span id="progressLabel">1-savol, 5 tadan</span><span id="progressStatus">Kayfiyat tekshiruvi</span></div>
+      <div class="progress-track" role="progressbar" id="progressTrack" aria-valuemin="0" aria-valuemax="5" aria-valuenow="1"><span class="progress-bar" id="progressBar"></span></div>
     </header>
-
     <div class="mascot-stage" id="mascotStage" aria-hidden="true">
       <span class="scene-icon" id="sceneIcon">✨</span>
-      <div class="suitcase" id="suitcase">
-        <div class="suitcase-handle"></div>
-        <div class="suitcase-shell">
-          <span class="case-band band-left"></span>
-          <span class="case-band band-right"></span>
-          <span class="case-sticker sticker-one" data-sticker="0"></span>
-          <span class="case-sticker sticker-two" data-sticker="1"></span>
-          <span class="case-sticker sticker-three" data-sticker="2"></span>
-          <span class="case-sticker sticker-four" data-sticker="3"></span>
-          <span class="case-sticker sticker-five" data-sticker="4"></span>
-          <div class="suitcase-face" id="suitcaseFace">•ᴗ•</div>
-        </div>
-        <span class="case-foot foot-left"></span>
-        <span class="case-foot foot-right"></span>
-      </div>
+      <div class="suitcase" id="suitcase"><div class="suitcase-handle"></div><div class="suitcase-shell"><span class="case-band band-left"></span><span class="case-band band-right"></span><span class="case-sticker sticker-one" data-sticker="0"></span><span class="case-sticker sticker-two" data-sticker="1"></span><span class="case-sticker sticker-three" data-sticker="2"></span><span class="case-sticker sticker-four" data-sticker="3"></span><span class="case-sticker sticker-five" data-sticker="4"></span><div class="suitcase-face" id="suitcaseFace">•ᴗ•</div></div><span class="case-foot foot-left"></span><span class="case-foot foot-right"></span></div>
+      <div class="final-flower" id="finalFlower" aria-hidden="true">🌸</div>
     </div>
-
-    <section class="screen" id="startScreen" aria-labelledby="startTitle">
-      <p class="eyebrow">Hech kim tomonidan ko'rib chiqilmagan</p>
-      <h1 id="startTitle" tabindex="-1">Rasman Ilmiy Kayfiyat Testi</h1>
-      <p class="lead"><strong>30 soniya. 5 ta mayda tanlov. Noto'g'ri javob yo'q.</strong></p>
-      <p class="supporting">Ogohlantirish: sababsiz kayfiyatingizni ko'tarib yuborishi mumkin.</p>
-      <div class="start-actions">
-        <button class="button primary" id="startButton" type="button">Ko'ramiz 😄</button>
-      </div>
-    </section>
-
-    <section class="screen" id="quizScreen" aria-labelledby="questionTitle" hidden>
-      <p class="eyebrow" id="questionEyebrow">Mayda tanlov 1</p>
-      <h2 id="questionTitle" tabindex="-1">Sayohat qilishni yoqtirasanmi?</h2>
-      <p class="reaction" id="reaction" aria-live="polite" aria-atomic="true">Birini tanla. Sumka bularni yozib boryapti.</p>
-      <div class="answers" id="answers">
-        <button class="button answer yes-answer" id="yesButton" type="button">Ha <span aria-hidden="true">😊</span></button>
-        <button class="button answer no-answer" id="noButton" type="button">Yo'q <span aria-hidden="true">🙈</span></button>
-      </div>
-    </section>
-
-    <section class="screen answer-reaction-screen" id="answerReactionScreen" aria-labelledby="answerReactionTitle" hidden>
-      <p class="eyebrow">Zudlik bilan reaksiya</p>
-      <div class="reaction-visual" id="reactionVisual" data-effect="fly" aria-hidden="true">
-        <span class="reaction-icon icon-main" id="reactionIconMain">✈️</span>
-        <span class="reaction-icon icon-side" id="reactionIconSide">💸</span>
-      </div>
-      <h2 id="answerReactionTitle" tabindex="-1">Pasport energiyasi aniqlandi.</h2>
-      <p class="reaction-caption">Keyingi mayda tanlov avtomatik ravishda keladi...</p>
-      <div class="reaction-countdown" aria-hidden="true"><span id="reactionCountdown"></span></div>
-    </section>
-
-    <section class="screen final-intro-screen" id="lastQuestionScreen" aria-labelledby="lastQuestionTitle" hidden>
-      <p class="eyebrow">Kutilmagan burilish...</p>
-      <h2 id="lastQuestionTitle" tabindex="-1">Kutib tur... yana bitta savol qoldi.</h2>
-      <p class="lead">Sumka aytishicha, bu savol chindan ham muhim.</p>
-      <div class="mini-loader" aria-hidden="true"><span></span><span></span><span></span></div>
-    </section>
-
-    <section class="screen final-screen" id="finalScreen" aria-labelledby="finalTitle" hidden>
-      <p class="eyebrow">Xo'p... bitta jiddiy savol</p>
-      <h2 id="finalTitle" tabindex="-1">Senga tabassum ulashishim uchun bitta kichik imkoniyat berasanmi?</h2>
-      <p class="reaction" id="finalReaction" aria-live="polite" aria-atomic="true">Ehtiyotkorlik bilan tanla. Sumkaning ham o'z fikri bor.</p>
-      <div class="answers final-answers">
-        <button class="button answer yes-answer" id="finalYesButton" type="button">Ha, bitta imkoniyat <span aria-hidden="true">🙂</span></button>
-        <button class="button answer no-answer" id="finalNoButton" type="button">Yo'q, lekin harakating yoqdi <span aria-hidden="true">😄</span></button>
-      </div>
-    </section>
-
-    <section class="screen ending-screen" id="endingScreen" aria-labelledby="endingTitle" hidden>
-      <p class="eyebrow" id="endingEyebrow">Imkoniyat berildi</p>
-      <h2 id="endingTitle" tabindex="-1">Kelishdik! 🎉</h2>
-      <p class="profile-description" id="endingMessage"></p>
-      <p class="tiny-joke" id="endingJoke"></p>
-      <div class="ending-actions">
-        <button class="button secondary" id="replayButton" type="button">Yana o'ynash ↻</button>
-      </div>
-    </section>
+    <section class="screen" id="startScreen" aria-labelledby="startTitle"><p class="eyebrow">Hech kim tomonidan ko'rib chiqilmagan</p><h1 id="startTitle" tabindex="-1">Rasman Ilmiy Kayfiyat Testi</h1><p class="lead"><strong>30 soniya. 5 ta mayda tanlov. Noto'g'ri javob yo'q.</strong></p><p class="supporting">Ogohlantirish: sababsiz kayfiyatingizni ko'tarib yuborishi mumkin.</p><div class="start-actions"><button class="button primary" id="startButton" type="button">Ko'ramiz 😄</button></div></section>
+    <section class="screen" id="quizScreen" aria-labelledby="questionTitle" hidden><p class="eyebrow" id="questionEyebrow">Mayda tanlov 1</p><h2 id="questionTitle" tabindex="-1">Sayohat qilishni yoqtirasizmi?</h2><p class="reaction" id="reaction" aria-live="polite" aria-atomic="true">Birini tanlang. Sumka javoblaringizni yozib boryapti.</p><div class="answers" id="answers"><button class="button answer yes-answer" id="yesButton" type="button">Ha <span aria-hidden="true">😊</span></button><button class="button answer no-answer" id="noButton" type="button">Yo'q <span aria-hidden="true">🙈</span></button></div></section>
+    <section class="screen answer-reaction-screen" id="answerReactionScreen" aria-labelledby="answerReactionTitle" hidden><p class="eyebrow">Zudlik bilan reaksiya</p><div class="reaction-visual" id="reactionVisual" data-effect="fly" aria-hidden="true"><span class="reaction-icon icon-main" id="reactionIconMain">✈️</span><span class="reaction-icon icon-side" id="reactionIconSide">💸</span></div><h2 id="answerReactionTitle" tabindex="-1">Pasport energiyasi aniqlandi.</h2><p class="reaction-caption">Keyingi mayda tanlov avtomatik ravishda keladi...</p><div class="reaction-countdown" aria-hidden="true"><span id="reactionCountdown"></span></div></section>
+    <section class="screen final-intro-screen" id="lastQuestionScreen" aria-labelledby="lastQuestionTitle" hidden><p class="eyebrow">Kutilmagan burilish...</p><h2 id="lastQuestionTitle" tabindex="-1">Kutib tur... yana bitta savol qoldi.</h2><p class="lead">Sumka aytishicha, bu savol chindan ham muhim.</p><div class="mini-loader" aria-hidden="true"><span></span><span></span><span></span></div></section>
+    <section class="screen final-screen" id="finalScreen" aria-labelledby="finalTitle" hidden><p class="eyebrow">Xo'p... bitta jiddiy savol</p><h2 id="finalTitle" tabindex="-1">Sizni yana xursand qilishim uchun imkon berasizmi 🤗</h2><p class="reaction" id="finalReaction" aria-live="polite" aria-atomic="true">Ehtiyotkorlik bilan tanlang. Sumkaning ham o‘z fikri bor.</p><div class="answers final-answers"><button class="button answer yes-answer" id="finalYesButton" type="button">Ha, bitta imkoniyat <span aria-hidden="true">🙂</span></button><button class="button answer no-answer" id="finalNoButton" type="button">Yo'q, lekin harakatingiz yoqdi <span aria-hidden="true">😄</span></button></div></section>
+    <section class="screen ending-screen" id="endingScreen" aria-labelledby="endingTitle" hidden><p class="eyebrow" id="endingEyebrow">Imkoniyat berildi</p><h2 id="endingTitle" tabindex="-1">Kelishdik! 🎉</h2><p class="profile-description" id="endingMessage"></p><p class="tiny-joke" id="endingJoke"></p><div class="ending-actions"><button class="button secondary" id="replayButton" type="button">Yana o'ynash ↻</button></div></section>
   </main>
-
   <div class="confetti" id="confetti" aria-hidden="true"></div>
   <script type="module" src="script.js"></script>
+  <script>
+    (() => {
+      const app = document.querySelector('#app');
+      const flower = document.querySelector('#finalFlower');
+      const noButton = document.querySelector('#finalNoButton');
+      let noTaps = 0;
+      const resetFlower = () => { noTaps = 0; flower.style.transform = ''; flower.style.removeProperty('--flower-scale'); };
+      noButton.addEventListener('click', () => {
+        if (app.dataset.view !== 'final') return;
+        noTaps += 1;
+        const scale = Math.min(1 + noTaps * 0.22, 2.2);
+        flower.style.setProperty('--flower-scale', scale);
+        flower.style.transform = `scale(${scale})`;
+        flower.classList.remove('blooming');
+        void flower.offsetWidth;
+        flower.classList.add('blooming');
+      });
+      document.querySelector('#startButton').addEventListener('click', resetFlower);
+      document.querySelector('#replayButton').addEventListener('click', resetFlower);
+    })();
+  </script>
 </body>
 </html>
