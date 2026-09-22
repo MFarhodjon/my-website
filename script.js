@@ -173,19 +173,14 @@ function showFinalQuestion() {
 
 function handleFinalNo() {
   if (endingChosen) return;
-  const funnyReactions = [
-    ['Bu biroz tez bo‘ldi. Sumka yana hisoblab ko‘rishingizni so‘ramoqda. 🧳', '🤨'],
-    ['Olimlar tekshirib ko‘rishdi. “Ha” varianti hali ham mavjud ekan. 👀', '🔬'],
-    ['Xo‘p, oxirgi hazil. Haqiqiy javobingiz g‘alaba qiladi. 😄', '😅']
-  ];
-  finalNoClicks += 1; if (finalNoClicks > funnyReactions.length) { showEnding(false); return; }
-  quizTelemetry.recordFinalNoAttempt(finalNoClicks); const [message, icon] = funnyReactions[finalNoClicks - 1];
-  finalReaction.textContent = message; sceneIcon.textContent = icon;
-  suitcaseFace.textContent = finalNoClicks === 1 ? '•o•' : finalNoClicks === 2 ? '•̀_•́' : '•ᴗ•'; animateSuitcase();
+  finalNoClicks += 1;
+  finalReaction.textContent = finalNoClicks === 1
+    ? 'Birinchi qaror bo‘ldi. Gullar ham o‘smayapti. 🌸'
+    : 'Yana bir marta. Gullar juda ko‘p ishtiyoq bilan o‘smoqda. 🌼';
   const mobile = window.matchMedia('(max-width: 600px)').matches;
   finalYesButton.style.transform = `scale(${Math.min(1 + finalNoClicks * (mobile ? 0.04 : 0.1), mobile ? 1.12 : 1.3)})`;
   finalNoButton.style.transform = `scale(${Math.max(1 - finalNoClicks * 0.05, 0.85)})`;
-  if (finalNoClicks === funnyReactions.length) finalNoButton.textContent = 'Yo‘q, chindan ham 🙂';
+  finalNoButton.textContent = finalNoClicks >= 2 ? 'Yo‘q, yana 😄' : 'Yo‘q, lekin harakatingiz yoqdi 😄';
 }
 
 function showEnding(answerIsYes) {
